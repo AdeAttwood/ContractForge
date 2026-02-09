@@ -36,10 +36,12 @@ public class ThriftErrorListener : BaseErrorListener
 public class ThriftListener : ThriftBaseListener
 {
     private readonly Document _document;
+    private readonly DefinitionState _state;
 
-    public ThriftListener(Document document)
+    public ThriftListener(Document document, DefinitionState state)
     {
         _document = document;
+        _state = state;
     }
 
     public override void ExitNamespace(ThriftParser.ThriftParser.NamespaceContext context)
@@ -56,6 +58,31 @@ public class ThriftListener : ThriftBaseListener
         else
         {
             _document.Namespaces.Add(context.ID().GetText(), context.path().GetText());
+        }
+    }
+
+    public override void ExitInclude(ThriftParser.ThriftParser.IncludeContext context)
+    {
+        var includePath = context.DOUBLE_QUOTE_STRING().GetText().Trim('"');
+        var aliasToken = context.ID();
+
+        var alias = aliasToken != null
+            ? aliasToken.GetText()
+            : Path.GetFileNameWithoutExtension(includePath);
+
+        try
+        {
+            var absPath = _state.ResolveSourceFile(_document.Uri, includePath);
+            var loadedDoc = _state.Load(absPath);
+            _document.IncludedDocuments[alias] = loadedDoc;
+        }
+        catch (FileNotFoundException ex)
+        {
+            _document.Errors.Add(new Error(
+               _document,
+               ThriftListener.CreatePoint(context.DOUBLE_QUOTE_STRING().Symbol),
+               $"Could not resolve include '{includePath}': {ex.Message}"
+           ));
         }
     }
 
@@ -333,10 +360,17 @@ public class ThriftListener : ThriftBaseListener
         var path = context.path();
         if (path is not null)
         {
+            var typeName = path.GetText();
+            var type = document.Resolve(typeName);
+            if (type is not null)
+            {
+                return type;
+            }
+
             document.Errors.Add(new Error(
                 document,
                 ThriftListener.CreatePoint(path.ID().First().Symbol),
-                $"Imported types are not supported"
+                $"Type '{typeName}' does not exist in the current context (or included documents)"
             ));
 
             return new Unknown

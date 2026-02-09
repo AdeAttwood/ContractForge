@@ -193,7 +193,7 @@ public class CSharpCodeGenValidationTest
             Content = content
         };
 
-        loader.Load(document);
+        loader.Load(document, new DefinitionState());
 
         return document;
     }

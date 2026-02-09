@@ -90,6 +90,6 @@ public class CSharpCodeGenEnumTest
             Uri = "test.thrift",
             Content = content
         };
-        return loader.Load(document);
+        return loader.Load(document, new DefinitionState());
     }
 }

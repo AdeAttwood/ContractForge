@@ -4,5 +4,5 @@ namespace NetRpc.Core;
 
 public interface ILoader
 {
-    public Document Load(string uri);
+    public Document Load(string uri, DefinitionState state);
 }

@@ -13,9 +13,22 @@ public class Document
     public Dictionary<string, Enum> Enums = new();
     public Dictionary<string, Union> Unions = new();
     public Dictionary<string, Service> Services = new();
+    public Dictionary<string, Document> IncludedDocuments = new();
 
     public BaseType? Resolve(string type)
     {
+        if (type.Contains("."))
+        {
+            var parts = type.Split('.', 2);
+            var alias = parts[0];
+            var typeName = parts[1];
+
+            if (IncludedDocuments.TryGetValue(alias, out var includedDoc))
+            {
+                return includedDoc.Resolve(typeName);
+            }
+        }
+
         if (Structs.TryGetValue(type, out var structType))
         {
             return structType;

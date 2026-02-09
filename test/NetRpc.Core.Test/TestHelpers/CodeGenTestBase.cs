@@ -15,7 +15,7 @@ public abstract class CodeGenTestBase
             Uri = "test.thrift",
             Content = content
         };
-        return loader.Load(document);
+        return loader.Load(document, new DefinitionState());
     }
 
     protected CodeGenResult GenerateCSharp(string thriftContent)

@@ -1,3 +1,4 @@
+using NetRpc.Core;
 using NetRpc.Core.Thrift;
 using NetRpc.Core.Types;
 
@@ -20,7 +21,7 @@ public class ThriftMultipleFunctionsTest
             """
         };
 
-        return loader.Load(document);
+        return loader.Load(document, new DefinitionState());
     }
 
     [Fact]
