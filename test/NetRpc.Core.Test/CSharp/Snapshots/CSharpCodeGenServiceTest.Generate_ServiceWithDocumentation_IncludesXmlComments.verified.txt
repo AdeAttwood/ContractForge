@@ -1,0 +1,41 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    /// <summary>
+    /// Service for performing calculations
+    /// </summary>
+    public interface ICalculatorServiceService
+    {
+        /// <summary>
+        /// Adds two numbers together
+        /// </summary>
+        Task<int> Add(int a, int b, CancellationToken cancellationToken = default);
+    }
+    [Route("/rpc/calculator-service-service")]
+    /// <summary>
+    /// Service for performing calculations
+    /// </summary>
+    public abstract class CalculatorServiceBaseController : Controller
+    {
+        private readonly ICalculatorServiceService _service;
+        public CalculatorServiceBaseController(ICalculatorServiceService service)
+        {
+            _service = service;
+        }
+        [HttpGet]
+        [Route("add")]
+        /// <summary>
+        /// Adds two numbers together
+        /// </summary>
+        public virtual Task<int> Add([FromQuery] int a, [FromQuery] int b, CancellationToken cancellationToken = default)
+        {
+            return _service.Add(a, b, cancellationToken);
+        }
+    }
+}

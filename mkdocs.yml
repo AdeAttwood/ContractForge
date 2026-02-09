@@ -1,0 +1,68 @@
+site_name: RpcNet Documentation
+site_description: .NET tool for generating RPC clients and servers from Thrift IDL
+site_url: https://rpcnet.dev
+repo_url: https://github.com/AdeAttwood/RpcNet
+repo_name: AdeAttwood/RpcNet
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tracking
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quickstart: getting-started/quickstart.md
+  - Generators:
+      - Overview: generators/overview.md
+      - C# JSON API: generators/csharp-jsonapi.md
+      - TypeScript Client: generators/typescript-client.md
+  - Reference:
+      - CLI: reference/cli.md
+      - Thrift IDL: reference/thrift-idl.md
+  - Comparisons:
+      - Overview: comparisons/overview.md
+      - vs gRPC: comparisons/vs-grpc.md
+      - vs REST: comparisons/vs-rest.md
+      - vs GraphQL: comparisons/vs-graphql.md
+      - When to Use: comparisons/when-to-use.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

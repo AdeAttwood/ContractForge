@@ -1,0 +1,22 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public interface IEmptyServiceService
+    {
+    }
+    [Route("/rpc/empty-service-service")]
+    public abstract class EmptyServiceBaseController : Controller
+    {
+        private readonly IEmptyServiceService _service;
+        public EmptyServiceBaseController(IEmptyServiceService service)
+        {
+            _service = service;
+        }
+    }
+}

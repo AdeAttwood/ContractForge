@@ -1,0 +1,29 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public interface IDataServiceService
+    {
+        Task<IAsyncEnumerable<long>> GetNumbers(int start, int end, CancellationToken cancellationToken = default);
+    }
+    [Route("/rpc/data-service-service")]
+    public abstract class DataServiceBaseController : Controller
+    {
+        private readonly IDataServiceService _service;
+        public DataServiceBaseController(IDataServiceService service)
+        {
+            _service = service;
+        }
+        [HttpGet]
+        [Route("get-numbers")]
+        public virtual Task<IAsyncEnumerable<long>> GetNumbers([FromQuery] int start, [FromQuery] int end, CancellationToken cancellationToken = default)
+        {
+            return _service.GetNumbers(start, end, cancellationToken);
+        }
+    }
+}

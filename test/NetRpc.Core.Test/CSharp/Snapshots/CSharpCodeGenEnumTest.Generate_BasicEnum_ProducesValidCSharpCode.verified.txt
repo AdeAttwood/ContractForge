@@ -1,0 +1,17 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum Status
+    {
+        Pending = 1,
+        Active = 2,
+        Completed = 3,
+    }
+}

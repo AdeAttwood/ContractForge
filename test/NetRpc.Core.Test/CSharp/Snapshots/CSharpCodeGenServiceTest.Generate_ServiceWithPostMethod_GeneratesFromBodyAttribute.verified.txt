@@ -1,0 +1,35 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public class Request
+    {
+        [Required]
+        [JsonPropertyName("name")]
+        public required string Name { get; set; }
+    }
+    public interface IUserServiceService
+    {
+        Task<string> Process(Request request, CancellationToken cancellationToken = default);
+    }
+    [Route("/rpc/user-service-service")]
+    public abstract class UserServiceBaseController : Controller
+    {
+        private readonly IUserServiceService _service;
+        public UserServiceBaseController(IUserServiceService service)
+        {
+            _service = service;
+        }
+        [HttpPost]
+        [Route("process")]
+        public virtual Task<string> Process([FromBody] Request request, CancellationToken cancellationToken = default)
+        {
+            return _service.Process(request, cancellationToken);
+        }
+    }
+}

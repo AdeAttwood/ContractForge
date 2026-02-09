@@ -1,0 +1,26 @@
+version: "3"
+
+vars:
+  PROJECT_NAME: DotnetJsonWebApi
+  THRIFT_FILE: calculator.thrift
+  GENERATED_FILE: Generated/CalculatorService.cs
+  CLI_PROJECT: ../../src/NetRpc.Cli/NetRpc.Cli.csproj
+
+tasks:
+  build:
+    desc: Build the sample project
+    deps:
+      - generate
+    cmds:
+      - dotnet build /warnaserror
+
+  generate:
+    desc: Regenerate service code from Thrift
+    cmds:
+      - echo "Generating service code from {{.THRIFT_FILE}}..."
+      - dotnet run --project {{.CLI_PROJECT}} -- -e ./{{.THRIFT_FILE}} -g csharp-jsonapi -o {{.GENERATED_FILE}}
+      - echo "✓ Generated code written to {{.GENERATED_FILE}}"
+    sources:
+      - "{{.THRIFT_FILE}}"
+    generates:
+      - "{{.GENERATED_FILE}}"

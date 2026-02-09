@@ -1,0 +1,58 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public class SuccessData
+    {
+        [Required]
+        [JsonPropertyName("id")]
+        public required long Id { get; set; }
+        [Required]
+        [JsonPropertyName("message")]
+        public required string Message { get; set; }
+    }
+    public class ErrorData
+    {
+        [Required]
+        [JsonPropertyName("code")]
+        public required int Code { get; set; }
+        [Required]
+        [JsonPropertyName("details")]
+        public required string Details { get; set; }
+    }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum OperationResultType
+    {
+        [JsonStringEnumMemberName("success")]
+        Success,
+        [JsonStringEnumMemberName("error")]
+        Error,
+    }
+    public class OperationResult
+    {
+        [JsonPropertyName("type")]
+        public OperationResultType Type { get; set; }
+
+        [JsonPropertyName("success")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public SuccessData? Success { get; set; }
+        public OperationResult(SuccessData success)
+        {
+            Type = OperationResultType.Success;
+            this.Success = success;
+        }
+        [JsonPropertyName("error")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public ErrorData? Error { get; set; }
+        public OperationResult(ErrorData error)
+        {
+            Type = OperationResultType.Error;
+            this.Error = error;
+        }
+    }
+}

@@ -1,0 +1,31 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public interface IMultiPolicyServiceService
+    {
+        Task<int> ComplexOp(CancellationToken cancellationToken = default);
+    }
+    [Route("/rpc/multi-policy-service-service")]
+    public abstract class MultiPolicyServiceBaseController : Controller
+    {
+        private readonly IMultiPolicyServiceService _service;
+        public MultiPolicyServiceBaseController(IMultiPolicyServiceService service)
+        {
+            _service = service;
+        }
+        [HttpPost]
+        [Route("complex-op")]
+        [Authorize(Policy = "AtLeast21")]
+        [Authorize(Policy = "CanEditProducts")]
+        public virtual Task<int> ComplexOp(CancellationToken cancellationToken = default)
+        {
+            return _service.ComplexOp(cancellationToken);
+        }
+    }
+}

@@ -1,0 +1,88 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public class User
+    {
+        [Required]
+        [JsonPropertyName("id")]
+        public required string Id { get; set; }
+        [Required]
+        [JsonPropertyName("name")]
+        public required string Name { get; set; }
+        [Required]
+        [JsonPropertyName("age")]
+        public required int Age { get; set; }
+    }
+    public class ValidationError : Exception
+    {
+        [Required]
+        [JsonPropertyName("code")]
+        public int Code { get; set; }
+        public ValidationError(int code, string message): base(message)
+        {
+            Code = code;
+        }
+    }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum UserResultType
+    {
+        [JsonStringEnumMemberName("success")]
+        Success,
+        [JsonStringEnumMemberName("error")]
+        Error,
+    }
+    public class UserResult
+    {
+        [JsonPropertyName("type")]
+        public UserResultType Type { get; set; }
+
+        [JsonPropertyName("success")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public User? Success { get; set; }
+        public UserResult(User success)
+        {
+            Type = UserResultType.Success;
+            this.Success = success;
+        }
+        [JsonPropertyName("error")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public ValidationError? Error { get; set; }
+        public UserResult(ValidationError error)
+        {
+            Type = UserResultType.Error;
+            this.Error = error;
+        }
+    }
+    public interface IUserServiceService
+    {
+        Task<UserResult> CreateUser(User user, CancellationToken cancellationToken = default);
+        Task<UserResult> GetUser(string id, CancellationToken cancellationToken = default);
+    }
+    [Route("/rpc/user-service-service")]
+    public abstract class UserServiceBaseController : Controller
+    {
+        private readonly IUserServiceService _service;
+        public UserServiceBaseController(IUserServiceService service)
+        {
+            _service = service;
+        }
+        [HttpPost]
+        [Route("create-user")]
+        public virtual Task<UserResult> CreateUser([FromBody] User user, CancellationToken cancellationToken = default)
+        {
+            return _service.CreateUser(user, cancellationToken);
+        }
+        [HttpGet]
+        [Route("get-user")]
+        public virtual Task<UserResult> GetUser([FromQuery] string id, CancellationToken cancellationToken = default)
+        {
+            return _service.GetUser(id, cancellationToken);
+        }
+    }
+}

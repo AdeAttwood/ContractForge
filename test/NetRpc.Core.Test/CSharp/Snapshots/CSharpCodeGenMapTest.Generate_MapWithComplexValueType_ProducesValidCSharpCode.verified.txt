@@ -1,0 +1,25 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public class User
+    {
+        [Required]
+        [JsonPropertyName("id")]
+        public required int Id { get; set; }
+        [Required]
+        [JsonPropertyName("name")]
+        public required string Name { get; set; }
+    }
+    public class UserDirectory
+    {
+        [Required]
+        [JsonPropertyName("users")]
+        public required Dictionary<int, User> Users { get; set; }
+    }
+}

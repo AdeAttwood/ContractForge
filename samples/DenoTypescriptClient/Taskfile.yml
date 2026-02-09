@@ -1,0 +1,27 @@
+version: "3"
+
+vars:
+  PROJECT_NAME: DenoTypescriptClient
+  THRIFT_FILE: ../DotnetJsonWebApi/calculator.thrift
+  GENERATED_FILE: generated/calculator-service.gen.ts
+  NETRPC_CLI: netrpc
+
+tasks:
+  check:
+    desc: Check the typescript types
+    cmd: deno check
+
+  test:
+    desc: Check the typescript types
+    cmd: deno test --allow-run --allow-net
+
+  generate:
+    desc: Regenerate client code from Thrift
+    cmds:
+      - echo "Generating client code from {{.THRIFT_FILE}}..."
+      - dotnet run --project {{.CLI_PROJECT}} -- -e ./{{.THRIFT_FILE}} -g typescript-client -o {{.GENERATED_FILE}}
+      - echo "✓ Generated code written to {{.GENERATED_FILE}}"
+    sources:
+      - "{{.THRIFT_FILE}}"
+    generates:
+      - "{{.GENERATED_FILE}}"

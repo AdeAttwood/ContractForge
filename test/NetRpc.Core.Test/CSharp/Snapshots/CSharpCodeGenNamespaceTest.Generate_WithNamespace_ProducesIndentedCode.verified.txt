@@ -1,0 +1,19 @@
+﻿namespace Test.Models
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public class User
+    {
+        [Required]
+        [JsonPropertyName("name")]
+        public required string Name { get; set; }
+        [Required]
+        [JsonPropertyName("age")]
+        public required int Age { get; set; }
+    }
+}

@@ -1,0 +1,109 @@
+version: "3"
+
+vars:
+  ANTLR_VERSION: 4.13.2
+  ANTLR_JAR: artifacts/antlr-{{.ANTLR_VERSION}}-complete.jar
+  ANTLR_URL: https://www.antlr.org/download/antlr-{{.ANTLR_VERSION}}-complete.jar
+  PARSER_GRAMMAR: src/NetRpc.ThriftParser/Thrift.g4
+  PARSER_OUTPUT: src/NetRpc.ThriftParser
+  SAMPLES: DotnetJsonWebApi DenoTypescriptClient
+
+includes:
+  actions:
+    taskfile: ./.github
+  sample-dotnet-api:
+    taskfile: ./samples/DotnetJsonWebApi
+    dir: ./samples/DotnetJsonWebApi
+  sample-deno-client:
+    taskfile: ./samples/DenoTypescriptClient
+    dir: ./samples/DenoTypescriptClient
+
+tasks:
+  build:
+    desc: Build all projects
+    cmds:
+      - dotnet build /warnaserror
+
+  test:
+    desc: Run all tests
+    cmds:
+      - dotnet test /warnaserror
+
+  test-all:
+    desc: Run and test all the sample code
+    cmds:
+      - task: test
+
+      - task: sample-dotnet-api:generate
+      - task: sample-dotnet-api:build
+
+      - task: sample-deno-client:generate
+      - task: sample-deno-client:check
+      - task: sample-deno-client:test
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - echo "Cleaning build artifacts..."
+      - dotnet clean
+
+  install:
+    desc: Install the cli tool locally as a dotnet tool
+    cmds:
+      - cmd: dotnet tool uninstall --global netrpc.cli
+        ignore_error: true
+      - dotnet pack -c Release /p:Version=0.0.0-alpha
+      - dotnet tool install -g --prerelease --add-source ./src/NetRpc.Cli/bin/Release  NetRpc.Cli
+
+  format:
+    desc: Format code using dotnet format
+    cmds:
+      - dotnet format
+      - deno fmt .
+
+  run-cli:
+    desc: Run CLI with arguments (use -- to pass args)
+    cmds:
+      - dotnet run --project src/NetRpc.Cli/NetRpc.Cli.csproj -- {{.CLI_ARGS}}
+
+  download-antlr:
+    desc: Download ANTLR {{.ANTLR_VERSION}} jar to artifacts/
+    cmds:
+      - mkdir -p artifacts
+      - |
+          {{if eq OS "windows"}}
+          if not exist "{{.ANTLR_JAR}}" (
+            echo Downloading ANTLR {{.ANTLR_VERSION}}...
+            curl -o {{.ANTLR_JAR}} {{.ANTLR_URL}}
+            echo Downloaded ANTLR to {{.ANTLR_JAR}}
+          ) else (
+            echo ANTLR jar already exists at {{.ANTLR_JAR}}
+          )
+          {{else}}
+          if [ ! -f "{{.ANTLR_JAR}}" ]; then
+            echo "Downloading ANTLR {{.ANTLR_VERSION}}..."
+            curl -o {{.ANTLR_JAR}} {{.ANTLR_URL}}
+            echo "Downloaded ANTLR to {{.ANTLR_JAR}}"
+          else
+            echo "ANTLR jar already exists at {{.ANTLR_JAR}}"
+          fi
+          {{end}}
+    status:
+      - test -f {{.ANTLR_JAR}}
+
+  # Build tasks
+  build-parser:
+    desc: Build NetRpc.ThriftParser using ANTLR
+    deps:
+      - download-antlr
+    cmds:
+      - java -jar ./{{.ANTLR_JAR}} -Dlanguage=CSharp -package NetRpc.ThriftParser -visitor -listener {{.PARSER_GRAMMAR}} -o {{.PARSER_OUTPUT}}
+    sources:
+      - "{{.PARSER_GRAMMAR}}"
+    generates:
+      - "{{.PARSER_OUTPUT}}/Thrift*.cs"
+
+  docs:serve:
+    desc: Serve the docs website on port 8000
+    cmds:
+      - docker run --rm -it -p 8000:8000 -v ./:/docs squidfunk/mkdocs-material serve -w /docs -a 0.0.0.0:8000

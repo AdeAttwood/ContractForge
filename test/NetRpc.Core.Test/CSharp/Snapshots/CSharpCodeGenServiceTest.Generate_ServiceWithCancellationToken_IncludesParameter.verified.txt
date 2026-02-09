@@ -1,0 +1,29 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public interface ISimpleServiceService
+    {
+        Task<string> Echo(string message, CancellationToken cancellationToken = default);
+    }
+    [Route("/rpc/simple-service-service")]
+    public abstract class SimpleServiceBaseController : Controller
+    {
+        private readonly ISimpleServiceService _service;
+        public SimpleServiceBaseController(ISimpleServiceService service)
+        {
+            _service = service;
+        }
+        [HttpPost]
+        [Route("echo")]
+        public virtual Task<string> Echo([FromBody] string message, CancellationToken cancellationToken = default)
+        {
+            return _service.Echo(message, cancellationToken);
+        }
+    }
+}

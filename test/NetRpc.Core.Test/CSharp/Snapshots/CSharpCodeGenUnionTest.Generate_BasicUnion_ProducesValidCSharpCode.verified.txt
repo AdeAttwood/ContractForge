@@ -1,0 +1,40 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ResultType
+    {
+        [JsonStringEnumMemberName("success")]
+        Success,
+        [JsonStringEnumMemberName("error")]
+        Error,
+    }
+    public class Result
+    {
+        [JsonPropertyName("type")]
+        public ResultType Type { get; set; }
+
+        [JsonPropertyName("success")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Success { get; set; }
+        public Result(string success)
+        {
+            Type = ResultType.Success;
+            this.Success = success;
+        }
+        [JsonPropertyName("error")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Error { get; set; }
+        public Result(string error)
+        {
+            Type = ResultType.Error;
+            this.Error = error;
+        }
+    }
+}

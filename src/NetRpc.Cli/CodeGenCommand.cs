@@ -1,0 +1,83 @@
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+
+using NetRpc.Core;
+using NetRpc.Core.CSharp;
+using NetRpc.Core.Typescript;
+
+using Spectre.Console;
+using Spectre.Console.Cli;
+
+namespace NetRpc.Cli;
+
+public class CodeGenCommand : Command<CodeGenCommand.Settings>
+{
+    public class Settings : CommandSettings
+    {
+        [Description("The .thirft file you would like to use as the entry point to your service definition")]
+        [CommandOption("-e|--entry")]
+        public string? EntryPoint { get; init; }
+
+        [Description("The output code generator you would like to use")]
+        [CommandOption("-g|--generator")]
+        public string? Generator { get; init; }
+
+        [Description("The output file to save the generated code to (optional, defaults to console)")]
+        [CommandOption("-o|--output")]
+        public string? OutputFile { get; init; }
+    }
+
+    public override int Execute([NotNull] CommandContext context, [NotNull] Settings settings)
+    {
+        var entryPoint = settings.EntryPoint;
+        if (settings.EntryPoint is null)
+        {
+            throw new ArgumentNullException("Entry point is require");
+        }
+
+        var definitionState = new DefinitionState();
+        definitionState.Load(settings.EntryPoint);
+        var errors = definitionState.Documents.SelectMany(d => d.Value.Errors);
+        if (errors.Count() > 0)
+        {
+            foreach (var error in errors)
+            {
+                AnsiConsole.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()} {error.Message}");
+                AnsiConsole.WriteLine(error.ToConsoleOutput());
+            }
+
+            return 1;
+        }
+
+        ICodeGen codeGen = settings.Generator switch
+        {
+            "csharp-jsonapi" => new CSharpCodeGen(),
+            "typescript-client" => new TypescriptCodeGen(),
+            _ => throw new ArgumentException($"Invalid generator '{settings.Generator}'"),
+        };
+
+        var result = codeGen.Build(definitionState);
+
+        if (result.Errors.Count() > 0)
+        {
+            foreach (var error in result.Errors)
+            {
+                AnsiConsole.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()} {error.Message}");
+                AnsiConsole.WriteLine(error.ToConsoleOutput());
+            }
+
+            return 1;
+        }
+
+        if (settings.OutputFile is not null)
+        {
+            File.WriteAllText(settings.OutputFile, result.Output);
+        }
+        else
+        {
+            Console.WriteLine(result.Output);
+        }
+
+        return 0;
+    }
+}

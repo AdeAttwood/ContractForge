@@ -1,0 +1,29 @@
+﻿namespace Test
+{
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json.Serialization;
+    using System.Collections;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Authorization;
+    public interface IMyServiceService
+    {
+        Task<string> GetData(CancellationToken cancellationToken = default);
+    }
+    [Route("/rpc/my-service-service")]
+    public abstract class MyServiceBaseController : Controller
+    {
+        private readonly IMyServiceService _service;
+        public MyServiceBaseController(IMyServiceService service)
+        {
+            _service = service;
+        }
+        [HttpPost]
+        [Route("get-data")]
+        public virtual Task<string> GetData(CancellationToken cancellationToken = default)
+        {
+            return _service.GetData(cancellationToken);
+        }
+    }
+}

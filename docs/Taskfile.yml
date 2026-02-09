@@ -1,0 +1,7 @@
+version: "3"
+
+tasks:
+  serve:
+    desc: Serve the docs website on port 8000
+    cmds:
+      - docker run --rm -it -p 8000:8000 -v ./:/docs squidfunk/mkdocs-material

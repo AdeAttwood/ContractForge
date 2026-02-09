@@ -1,0 +1,7 @@
+version: "3"
+
+tasks:
+  lint:
+    cmds:
+      - dotnet format --verify-no-changes
+      - deno fmt --check
