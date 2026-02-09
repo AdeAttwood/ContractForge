@@ -1,3 +1,4 @@
+using NetRpc.Core;
 using NetRpc.Core.Thrift;
 using NetRpc.Core.Types;
 
@@ -19,7 +20,7 @@ public class ThriftExceptionTest
             """
         };
 
-        var result = loader.Load(document);
+        var result = loader.Load(document, new DefinitionState());
         Assert.Empty(result.Errors);
     }
 
@@ -39,7 +40,7 @@ public class ThriftExceptionTest
             """
         };
 
-        var result = loader.Load(document);
+        var result = loader.Load(document, new DefinitionState());
         Assert.Single(result.Exceptions);
     }
 
@@ -60,7 +61,7 @@ public class ThriftExceptionTest
             """
         };
 
-        var result = loader.Load(document);
+        var result = loader.Load(document, new DefinitionState());
         var exception = result.Exceptions["MyException"];
         // Assert.Equal(2, exception.Fields.Count);
         Assert.Contains("message", exception.Fields.Keys);
@@ -87,7 +88,7 @@ public class ThriftExceptionTest
             """
         };
 
-        var result = loader.Load(document);
+        var result = loader.Load(document, new DefinitionState());
         Assert.Empty(result.Errors);
     }
 
@@ -111,7 +112,7 @@ public class ThriftExceptionTest
             """
         };
 
-        var result = loader.Load(document);
+        var result = loader.Load(document, new DefinitionState());
         var service = result.Services["MyService"];
         var function = service.Functions["add"];
         Assert.Single(function.Exceptions);

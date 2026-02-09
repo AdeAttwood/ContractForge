@@ -25,6 +25,10 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
         [Description("The output file to save the generated code to (optional, defaults to console)")]
         [CommandOption("-o|--output")]
         public string? OutputFile { get; init; }
+
+        [Description("Add a directory to the list of directories searched for include directives")]
+        [CommandOption("-i|--include")]
+        public string[]? IncludePaths { get; init; }
     }
 
     public override int Execute([NotNull] CommandContext context, [NotNull] Settings settings)
@@ -36,6 +40,22 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
         }
 
         var definitionState = new DefinitionState();
+
+        // Add default include path (entry point directory)
+        var entryPointDir = Path.GetDirectoryName(Path.GetFullPath(settings.EntryPoint));
+        if (entryPointDir != null)
+        {
+            definitionState.AddIncludePath(entryPointDir);
+        }
+
+        if (settings.IncludePaths != null)
+        {
+            foreach (var path in settings.IncludePaths)
+            {
+                definitionState.AddIncludePath(path);
+            }
+        }
+
         definitionState.Load(settings.EntryPoint);
         var errors = definitionState.Documents.SelectMany(d => d.Value.Errors);
         if (errors.Count() > 0)

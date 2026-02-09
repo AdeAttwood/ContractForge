@@ -7,7 +7,7 @@ namespace NetRpc.Core.Thrift;
 
 public class ThriftLoader : ILoader
 {
-    public Document Load(string uri)
+    public Document Load(string uri, DefinitionState state)
     {
         var document = new Document
         {
@@ -15,10 +15,12 @@ public class ThriftLoader : ILoader
             Content = File.ReadAllText(uri),
         };
 
-        return Load(document);
+        state.Documents[uri] = document;
+
+        return Load(document, state);
     }
 
-    public Document Load(Document document)
+    public Document Load(Document document, DefinitionState state)
     {
         var lexer = new ThriftLexer(new AntlrInputStream(document.Content));
         lexer.RemoveErrorListeners();
@@ -28,7 +30,7 @@ public class ThriftLoader : ILoader
 
         parser.RemoveErrorListeners();
         parser.AddErrorListener(new ThriftErrorListener(document));
-        parser.AddParseListener(new ThriftListener(document));
+        parser.AddParseListener(new ThriftListener(document, state));
 
         parser.document();
 

@@ -1,3 +1,4 @@
+using NetRpc.Core;
 using NetRpc.Core.Thrift;
 using NetRpc.Core.Types;
 
@@ -284,6 +285,6 @@ public class ThriftEnumTest
             Uri = "test.thrift",
             Content = content
         };
-        return loader.Load(document);
+        return loader.Load(document, new DefinitionState());
     }
 }

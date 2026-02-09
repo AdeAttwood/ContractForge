@@ -1,3 +1,4 @@
+using NetRpc.Core;
 using NetRpc.Core.Thrift;
 using NetRpc.Core.Types;
 
@@ -19,7 +20,7 @@ public class ThriftInvalidThriftTest
             """
         };
 
-        return loader.Load(document);
+        return loader.Load(document, new DefinitionState());
     }
 
     [Fact]
@@ -42,7 +43,7 @@ public class ThriftInvalidThriftTest
             """
         };
 
-        return loader.Load(document);
+        return loader.Load(document, new DefinitionState());
     }
 
     [Fact]
