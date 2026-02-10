@@ -2,27 +2,48 @@ using System.Text;
 
 namespace NetRpc.Core.Types;
 
+public enum Severity
+{
+    Error,
+    Warning,
+    Info
+}
+
 public class Error
 {
     public Document Document { get; set; }
     public Point Point { get; set; }
     public string Message { get; set; }
+    public string Id { get; set; }
+    public Severity Severity { get; set; }
 
-    public Error(Document document, Point point, string message)
+    public Error(Document document, Point point, string message, string id = "NR0000", Severity severity = Severity.Error)
     {
         Document = document;
         Point = point;
         Message = message;
+        Id = id;
+        Severity = severity;
     }
 
     public string ToMsBuildFormat()
     {
-        return $"{Document.Uri}({Point.Line},{Point.Column})";
+        var level = Severity switch
+        {
+            Severity.Error => "error",
+            Severity.Warning => "warning",
+            _ => "info"
+        };
+        return $"{Document.Uri}({Point.Line},{Point.Column}) : {level} {Id}: {Message}";
     }
 
     public string ToConsoleOutput()
     {
         var builder = new StringBuilder();
+
+        // Header with ID and Severity
+        var level = Severity.ToString().ToUpper();
+        builder.AppendLine($"{level} {Id}: {Document.Uri}({Point.Line},{Point.Column}) {Message}");
 
         var content = Document.Content.Split("\n");
         var start = Math.Max(Point.Line - 3, 0);

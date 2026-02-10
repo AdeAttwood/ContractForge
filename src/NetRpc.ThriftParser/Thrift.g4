@@ -36,7 +36,7 @@ exceptionStruct
   ;
 
 fields
-  : field (COMMA field)*
+  : field (COMMA? field)*
   ;
 
 field
@@ -48,7 +48,7 @@ service
   ;
 
 functions
-  : function (COMMA function)*
+  : function (COMMA? function)*
   ;
 
 throwsFields
@@ -72,7 +72,7 @@ enum
   ;
 
 enumValues
-  : enumValue (COMMA enumValue)*
+  : enumValue (COMMA? enumValue)*
   ;
 
 enumValue
@@ -89,7 +89,7 @@ type
   ;
 
 attributes
-  : attribute (COMMA attribute)*
+  : attribute (COMMA? attribute)*
   ;
 
 attribute

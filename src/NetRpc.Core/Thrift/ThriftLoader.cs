@@ -1,5 +1,6 @@
 using Antlr4.Runtime;
 
+using NetRpc.Core.Linting;
 using NetRpc.Core.Types;
 using NetRpc.ThriftParser;
 
@@ -7,6 +8,13 @@ namespace NetRpc.Core.Thrift;
 
 public class ThriftLoader : ILoader
 {
+    private readonly ThriftLinter _linter;
+
+    public ThriftLoader()
+    {
+        _linter = new ThriftLinter();
+    }
+
     public Document Load(string uri, DefinitionState state)
     {
         var document = new Document
@@ -29,8 +37,10 @@ public class ThriftLoader : ILoader
         var parser = new NetRpc.ThriftParser.ThriftParser(tokens);
 
         parser.RemoveErrorListeners();
-        parser.AddErrorListener(new ThriftErrorListener(document));
         parser.AddParseListener(new ThriftListener(document, state));
+
+        // Attach linter
+        _linter.Attach(parser, document);
 
         parser.document();
 
