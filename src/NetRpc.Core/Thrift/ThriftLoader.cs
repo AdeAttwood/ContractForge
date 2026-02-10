@@ -44,6 +44,9 @@ public class ThriftLoader : ILoader
 
         parser.document();
 
+        // Run semantic analysis
+        _linter.RunSemanticAnalysis(document);
+
         return document;
     }
 }

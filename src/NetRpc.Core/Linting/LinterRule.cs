@@ -7,6 +7,7 @@ namespace NetRpc.Core.Linting;
 public abstract class LinterRule : ThriftBaseListener
 {
     private Document? _document;
+
     public abstract LintDescriptor Descriptor { get; }
     protected Document Document => _document ?? throw new InvalidOperationException("LinterRule has not been initialized with a Document.");
 
