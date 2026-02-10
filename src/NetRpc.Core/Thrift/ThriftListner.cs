@@ -317,16 +317,11 @@ public class ThriftListener : ThriftBaseListener
                 return type;
             }
 
-            document.Errors.Add(new Error(
-                document,
-                ThriftListener.CreatePoint(context),
-                $"Type '{identifier.GetText()}' does not exist in the current context"
-            ));
-
             return new Unknown
             {
                 Document = document,
                 Point = ThriftListener.CreatePoint(identifier.Symbol),
+                Identifier = identifier.GetText()
             };
         }
 
@@ -340,16 +335,11 @@ public class ThriftListener : ThriftBaseListener
                 return type;
             }
 
-            document.Errors.Add(new Error(
-                document,
-                ThriftListener.CreatePoint(path.ID().First().Symbol),
-                $"Type '{typeName}' does not exist in the current context (or included documents)"
-            ));
-
             return new Unknown
             {
                 Document = document,
                 Point = ThriftListener.CreatePoint(path.ID().First().Symbol),
+                Identifier = typeName
             };
         }
 

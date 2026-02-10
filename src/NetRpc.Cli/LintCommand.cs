@@ -52,8 +52,8 @@ public class LintCommand : Command<LintCommand.Settings>
         }
         catch (Exception ex)
         {
-             AnsiConsole.MarkupLine($"[red]ERROR:[/] Failed to load entry point: {ex.Message}");
-             return 1;
+            AnsiConsole.MarkupLine($"[red]ERROR:[/] Failed to load entry point: {ex.Message}");
+            return 1;
         }
 
         var errors = definitionState.Documents.SelectMany(d => d.Value.Errors).ToList();
