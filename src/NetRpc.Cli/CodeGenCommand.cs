@@ -62,7 +62,7 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
         {
             foreach (var error in errors)
             {
-                AnsiConsole.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()} {error.Message}");
+                AnsiConsole.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()}");
                 AnsiConsole.WriteLine(error.ToConsoleOutput());
             }
 
@@ -82,7 +82,7 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
         {
             foreach (var error in result.Errors)
             {
-                AnsiConsole.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()} {error.Message}");
+                AnsiConsole.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()}");
                 AnsiConsole.WriteLine(error.ToConsoleOutput());
             }
 

@@ -41,10 +41,6 @@ public class Error
     {
         var builder = new StringBuilder();
 
-        // Header with ID and Severity
-        var level = Severity.ToString().ToUpper();
-        builder.AppendLine($"{level} {Id}: {Document.Uri}({Point.Line},{Point.Column}) {Message}");
-
         var content = Document.Content.Split("\n");
         var start = Math.Max(Point.Line - 3, 0);
         var end = Math.Min(Point.Line + 3, content.Length);
