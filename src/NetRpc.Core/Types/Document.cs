@@ -1,9 +1,13 @@
+using Antlr4.Runtime;
+
 namespace NetRpc.Core.Types;
 
 public class Document
 {
     public required string Uri { get; set; }
     public required string Content { get; set; }
+
+    public List<IToken> Tokens { get; set; } = new();
 
     public List<Error> Errors { get; set; } = new();
 
