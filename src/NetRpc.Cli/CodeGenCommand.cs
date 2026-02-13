@@ -14,9 +14,9 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
 {
     public class Settings : CommandSettings
     {
-        [Description("The .thirft file you would like to use as the entry point to your service definition")]
+        [Description("The .thrift file(s) you would like to use as the entry point(s) to your service definition. Can be specified multiple times.")]
         [CommandOption("-e|--entry")]
-        public string? EntryPoint { get; init; }
+        public string[]? EntryPoints { get; init; }
 
         [Description("The output code generator you would like to use")]
         [CommandOption("-g|--generator")]
@@ -33,19 +33,21 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
 
     public override int Execute([NotNull] CommandContext context, [NotNull] Settings settings)
     {
-        var entryPoint = settings.EntryPoint;
-        if (settings.EntryPoint is null)
+        if (settings.EntryPoints is null || settings.EntryPoints.Length == 0)
         {
-            throw new ArgumentNullException("Entry point is require");
+            throw new ArgumentNullException("Entry point is required");
         }
 
         var definitionState = new DefinitionState();
 
-        // Add default include path (entry point directory)
-        var entryPointDir = Path.GetDirectoryName(Path.GetFullPath(settings.EntryPoint));
-        if (entryPointDir != null)
+        // Add default include paths from all entry point directories
+        foreach (var entryPoint in settings.EntryPoints)
         {
-            definitionState.AddIncludePath(entryPointDir);
+            var entryPointDir = Path.GetDirectoryName(Path.GetFullPath(entryPoint));
+            if (entryPointDir != null)
+            {
+                definitionState.AddIncludePath(entryPointDir);
+            }
         }
 
         if (settings.IncludePaths != null)
@@ -56,7 +58,11 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
             }
         }
 
-        definitionState.Load(settings.EntryPoint);
+        // Load all entry points
+        foreach (var entryPoint in settings.EntryPoints)
+        {
+            definitionState.Load(entryPoint);
+        }
         var errors = definitionState.Documents.SelectMany(d => d.Value.Errors);
         if (errors.Count() > 0)
         {
