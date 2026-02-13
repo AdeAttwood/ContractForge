@@ -1,6 +1,6 @@
 # Generators Overview
 
-RpcNet uses **generators** to transform Thrift IDL files into working code for
+NetRpc uses **generators** to transform Thrift IDL files into working code for
 different platforms and purposes.
 
 ## What Are Generators?
@@ -14,7 +14,7 @@ Generators are code generation engines that:
 
 ## Available Generators
 
-RpcNet currently provides two generators:
+NetRpc currently provides two generators:
 
 ### C# JSON API (`csharp-jsonapi`)
 
@@ -83,7 +83,7 @@ graph LR
 
 ## Creating Custom Generators
 
-RpcNet's generator system is extensible. You can create custom generators for:
+NetRpc's generator system is extensible. You can create custom generators for:
 
 - Different languages (Python, Java, Go, etc.)
 - Different frameworks (Nancy, FastAPI, etc.)

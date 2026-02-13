@@ -33,9 +33,9 @@ call a Calculator API from Node.js, Deno, Bun, or the browser.
 
 ### Prerequisites
 
-- RpcNet CLI installed
+- NetRpc CLI installed
 - Node.js 18+, Deno, or Bun
-- A running RpcNet server (see [C# Server Guide](csharp-jsonapi.md#quick-start))
+- A running NetRpc server (see [C# Server Guide](csharp-jsonapi.md#quick-start))
 
 ### Step 1: Generate Client Code
 

@@ -1,8 +1,8 @@
-# RpcNet Documentation
+# NetRpc Documentation
 
 **Modern RPC for .NET with Web Standards**
 
-RpcNet is a .NET tool that generates RPC clients and servers from Thrift IDL
+NetRpc is a .NET tool that generates RPC clients and servers from Thrift IDL
 files, enabling type-safe cross-language communication using standard HTTP,
 JSON, and modern web APIs.
 
@@ -37,9 +37,9 @@ netrpc generate typescript-client -i service.thrift -o client.ts
 - **API Architects** - Design APIs with IDL-first approach
 - **Teams** - Share type definitions across microservices
 
-## Why RpcNet?
+## Why NetRpc?
 
-Unlike gRPC (HTTP/2 + Protobuf), RpcNet uses standard HTTP/1.1 with JSON, making
+Unlike gRPC (HTTP/2 + Protobuf), NetRpc uses standard HTTP/1.1 with JSON, making
 it:
 
 - ✅ **Browser-friendly** - Works with standard fetch API, no special libraries
@@ -47,7 +47,7 @@ it:
 - ✅ **Tool-friendly** - Standard HTTP and JSON for easy integration
 - ✅ **Flexible** - Support streaming with NDJSON over HTTP
 
-Unlike hand-written REST APIs, RpcNet gives you:
+Unlike hand-written REST APIs, NetRpc gives you:
 
 - ✅ **Type safety** - Compile-time checks across client and server
 - ✅ **Code generation** - No manual DTO writing or API client code
@@ -102,8 +102,8 @@ class UserServiceClient {
 
 ## Community & Support
 
-- **GitHub**: [AdeAttwood/RpcNet](https://github.com/AdeAttwood/RpcNet)
+- **GitHub**: [AdeAttwood/NetRpc](https://github.com/AdeAttwood/NetRpc)
 - **Issues**:
-  [Report bugs or request features](https://github.com/AdeAttwood/RpcNet/issues)
+  [Report bugs or request features](https://github.com/AdeAttwood/NetRpc/issues)
 - **Discussions**:
-  [Ask questions and share ideas](https://github.com/AdeAttwood/RpcNet/discussions)
+  [Ask questions and share ideas](https://github.com/AdeAttwood/NetRpc/discussions)

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -11,8 +11,8 @@
     <Description>.NET tool for generating RPC clients and servers from Thrift IDL</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/AdeAttwood/RpcNet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/AdeAttwood/RpcNet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/AdeAttwood/NetRpc</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AdeAttwood/NetRpc</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

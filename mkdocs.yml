@@ -1,9 +1,8 @@
-site_name: RpcNet Documentation
+site_name: NetRpc Documentation
 site_description: .NET tool for generating RPC clients and servers from Thrift IDL
-site_url: https://rpcnet.dev
-repo_url: https://github.com/AdeAttwood/RpcNet
-repo_name: AdeAttwood/RpcNet
-edit_uri: edit/main/docs/
+repo_url: https://github.com/AdeAttwood/NetRpc
+repo_name: AdeAttwood/NetRpc
+edit_uri: edit/0.x/docs/
 
 theme:
   name: material
