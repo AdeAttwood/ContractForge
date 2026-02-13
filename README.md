@@ -32,14 +32,26 @@ Run the installed tool to generate code from a Thrift file:
 rpcnet --entry path/to/thrift/file.thrift --generator csharp-jsonapi
 ```
 
+You can also specify multiple entry points for services that share common
+includes:
+
+```bash
+rpcnet --entry service1.thrift --entry service2.thrift --generator csharp-jsonapi
+```
+
 Options:
 
-- `--entry` (`-e`): Path to the Thrift IDL file.
+- `--entry` (`-e`): Path to the Thrift IDL file. Can be specified multiple times
+  for multiple entry points.
 - `--generator` (`-g`): Code generator (`csharp-jsonapi` for C# or
   `typescript-client` for TypeScript).
+- `--include` (`-i`): Add a directory to the list of directories searched for
+  include directives. Can be specified multiple times.
+- `--output` (`-o`): The output file to save the generated code to (optional,
+  defaults to console).
 
-Generated code is output to the console. Redirect to a file if needed, e.g.,
-`rpcnet ... > output.cs`.
+Generated code is output to the console by default. Redirect to a file if
+needed, e.g., `rpcnet ... > output.cs`, or use the `--output` option.
 
 ## Examples
 
