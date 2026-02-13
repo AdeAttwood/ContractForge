@@ -1,18 +1,18 @@
 # Installation
 
-This guide will help you install RpcNet and set up your development environment.
+This guide will help you install NetRpc and set up your development environment.
 
 <!-- deno-fmt-ignore-start -->
 
 !!! warning "Pre-release Package"
-    RpcNet is not yet published to NuGet. Until the official release, you'll
+    NetRpc is not yet published to NuGet. Until the official release, you'll
     need to install from source. NuGet distribution is coming soon.
 
 <!-- deno-fmt-ignore-end -->
 
 ## Prerequisites
 
-Before installing RpcNet, ensure you have:
+Before installing NetRpc, ensure you have:
 
 - **.NET 8.0 SDK or later** -
   [Download here](https://dotnet.microsoft.com/download)
@@ -24,7 +24,7 @@ For TypeScript client development, you'll also need:
 
 ## Install from Source
 
-Since RpcNet is not yet available on NuGet, you'll need to build and install it
+Since NetRpc is not yet available on NuGet, you'll need to build and install it
 from source:
 
 ### Prerequisites for Source Installation
@@ -40,8 +40,8 @@ In addition to the prerequisites above, you'll need:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/AdeAttwood/RpcNet.git
-   cd RpcNet
+   git clone https://github.com/AdeAttwood/NetRpc.git
+   cd NetRpc
    ```
 
 2. **Install using Task** (recommended):
@@ -70,7 +70,7 @@ In addition to the prerequisites above, you'll need:
 
 ### Verify Installation
 
-Check that RpcNet is installed correctly:
+Check that NetRpc is installed correctly:
 
 ```bash
 netrpc --version
@@ -104,7 +104,7 @@ dotnet tool uninstall --global netrpc.cli
 
 ## Install from NuGet (Coming Soon)
 
-Once RpcNet is published to NuGet, you'll be able to install it using:
+Once NetRpc is published to NuGet, you'll be able to install it using:
 
 ```bash
 dotnet tool install --global NetRpc.Cli
@@ -118,17 +118,17 @@ dotnet tool update --global NetRpc.Cli
 
 ## Next Steps
 
-Now that RpcNet is installed, you're ready to:
+Now that NetRpc is installed, you're ready to:
 
 - [Follow the Quickstart guide](quickstart.md) to build your first API
-- [Explore the generators](../generators/overview.md) to understand what RpcNet
+- [Explore the generators](../generators/overview.md) to understand what NetRpc
   can generate
 
 ## Getting Help
 
 If you encounter issues not covered here:
 
-- Check the [GitHub Issues](https://github.com/AdeAttwood/RpcNet/issues)
-- Ask in [GitHub Discussions](https://github.com/AdeAttwood/RpcNet/discussions)
+- Check the [GitHub Issues](https://github.com/AdeAttwood/NetRpc/issues)
+- Ask in [GitHub Discussions](https://github.com/AdeAttwood/NetRpc/discussions)
 - Review the [CLI Reference](../reference/cli.md) for detailed command
   documentation
