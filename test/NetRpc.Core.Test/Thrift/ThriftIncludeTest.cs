@@ -141,4 +141,71 @@ public class ThriftIncludeTest : IDisposable
         var statusField = response.Fields["status"];
         Assert.IsType<Struct>(statusField.Type);
     }
+
+    [Fact]
+    public void Load_MultipleEntryPoints_WithSharedInclude_DeduplicatesDocuments()
+    {
+        // common.thrift - shared types
+        var commonPath = Path.Combine(_tempDir, "common.thrift");
+        File.WriteAllText(commonPath, @"
+            namespace cs Common
+            struct SharedType {
+                1: i32 id,
+                2: string name
+            }
+        ");
+
+        // service1.thrift
+        var service1Path = Path.Combine(_tempDir, "service1.thrift");
+        File.WriteAllText(service1Path, @"
+            namespace cs Service1
+            include ""common.thrift""
+
+            service UserService {
+                common.SharedType getUser(1: i32 id)
+            }
+        ");
+
+        // service2.thrift
+        var service2Path = Path.Combine(_tempDir, "service2.thrift");
+        File.WriteAllText(service2Path, @"
+            namespace cs Service2
+            include ""common.thrift""
+
+            service OrderService {
+                common.SharedType getOrder(1: i32 id)
+            }
+        ");
+
+        var state = new DefinitionState();
+        state.AddIncludePath(_tempDir);
+
+        // Load both entry points
+        var doc1 = state.Load(service1Path);
+        var doc2 = state.Load(service2Path);
+
+        // Both documents should have no errors
+        Assert.Empty(doc1.Errors);
+        Assert.Empty(doc2.Errors);
+
+        // Verify both services are loaded
+        Assert.True(doc1.Services.ContainsKey("UserService"));
+        Assert.True(doc2.Services.ContainsKey("OrderService"));
+
+        // Verify shared type is resolved correctly in both
+        var userService = doc1.Services["UserService"];
+        var getUserFunc = userService.Functions["getUser"];
+        Assert.IsType<Struct>(getUserFunc.Type);
+        Assert.Equal("SharedType", ((Struct)getUserFunc.Type).Identifier);
+
+        var orderService = doc2.Services["OrderService"];
+        var getOrderFunc = orderService.Functions["getOrder"];
+        Assert.IsType<Struct>(getOrderFunc.Type);
+        Assert.Equal("SharedType", ((Struct)getOrderFunc.Type).Identifier);
+
+        // Verify deduplication: common.thrift should only be loaded once
+        // The state should have: service1, service2, and common (3 documents total)
+        Assert.Equal(3, state.Documents.Count);
+        Assert.Single(state.Documents.Values, d => d.Uri == commonPath);
+    }
 }
