@@ -11,7 +11,7 @@
     <PackageReference Include="Ndjson.AsyncStreams.AspNetCore.Mvc" Version="1.4.1" />
   </ItemGroup>
 
-  <Target Name="RpcNet"  BeforeTargets="CoreCompile">
+  <Target Name="NetRpc"  BeforeTargets="CoreCompile">
     <Exec Command="dotnet run --project ../../src/NetRpc.Cli/NetRpc.Cli.csproj -- -e ./calculator.thrift -g csharp-jsonapi -o Generated/CalculatorService.cs" />
   </Target>
 </Project>

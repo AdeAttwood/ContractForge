@@ -1,12 +1,12 @@
 # Thrift IDL Reference
 
-RpcNet uses Thrift Interface Definition Language (IDL) to define RPC services,
+NetRpc uses Thrift Interface Definition Language (IDL) to define RPC services,
 data types, and API contracts. This reference covers all supported features and
 syntax for defining type-safe, cross-language APIs.
 
 ## Overview
 
-RpcNet's Thrift IDL implementation focuses on single-file service definitions,
+NetRpc's Thrift IDL implementation focuses on single-file service definitions,
 making it ideal for building modern RPC APIs without the complexity of
 multi-file type systems. All definitions—types, services, and exceptions—coexist
 in a single `.thrift` file.
@@ -23,7 +23,7 @@ in a single `.thrift` file.
 
 ### Primitive Types
 
-RpcNet supports 10 primitive types that map to native types in C# and
+NetRpc supports 10 primitive types that map to native types in C# and
 TypeScript:
 
 | Thrift Type | Description           | C# Type  | TypeScript Type |
@@ -575,7 +575,7 @@ This example demonstrates:
 
 ## Limitations
 
-RpcNet focuses on single-file service definitions for the MVP. The following
+NetRpc focuses on single-file service definitions for the MVP. The following
 standard Thrift features are **not currently supported** but are planned for
 future releases:
 
@@ -770,5 +770,5 @@ service DataService {
 - [TypeScript Client Generator](../generators/typescript-client.md) - Generate
   type-safe TypeScript clients
 - [Getting Started Guide](../getting-started/quickstart.md) - Build your first
-  RpcNet API
+  NetRpc API
 - [CLI Reference](cli.md) - Command-line tool options and usage

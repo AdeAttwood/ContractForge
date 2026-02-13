@@ -1,17 +1,17 @@
 # Quickstart
 
-Get started with RpcNet in 5 minutes. This guide shows you how to define an API
+Get started with NetRpc in 5 minutes. This guide shows you how to define an API
 and generate code for your platform.
 
 ## What You'll Learn
 
 - How to define APIs with Thrift IDL
-- How to generate code with the RpcNet CLI
+- How to generate code with the NetRpc CLI
 - Where to go next for your use case
 
 ## Prerequisites
 
-- [RpcNet CLI installed](installation.md)
+- [NetRpc CLI installed](installation.md)
 - Your target runtime (.NET 8.0+, Node.js 18+, Deno, or Bun)
 
 ## Step 1: Define Your API
@@ -48,7 +48,7 @@ and serves as the contract between your client and server.
 
 ## Step 2: Generate Code
 
-RpcNet provides generators for different platforms. Choose based on what you're
+NetRpc provides generators for different platforms. Choose based on what you're
 building:
 
 ### Server Generators
@@ -143,7 +143,7 @@ Each service can be developed, deployed, and scaled independently.
 ## What You've Learned
 
 - ✅ How to define APIs with Thrift IDL
-- ✅ How to generate code with the RpcNet CLI
+- ✅ How to generate code with the NetRpc CLI
 - ✅ Available generators for different platforms
 - ✅ Common project patterns
 
@@ -162,6 +162,6 @@ Ready to build? Continue with your chosen generator:
 ## Need Help?
 
 - **GitHub Issues**:
-  [Report bugs or request features](https://github.com/AdeAttwood/RpcNet/issues)
+  [Report bugs or request features](https://github.com/AdeAttwood/NetRpc/issues)
 - **GitHub Discussions**:
-  [Ask questions and share ideas](https://github.com/AdeAttwood/RpcNet/discussions)
+  [Ask questions and share ideas](https://github.com/AdeAttwood/NetRpc/discussions)

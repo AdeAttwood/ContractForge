@@ -25,13 +25,13 @@ This generator produces:
 
 ## Quick Start
 
-Build your first C# API with RpcNet in 10 minutes. This guide walks you through
+Build your first C# API with NetRpc in 10 minutes. This guide walks you through
 creating a simple Calculator service.
 
 ### Prerequisites
 
 - .NET 8.0 SDK
-- RpcNet CLI installed
+- NetRpc CLI installed
 - Basic familiarity with ASP.NET Core
 
 ### Step 1: Define Your API
@@ -746,4 +746,4 @@ netrpc -e <input.thrift> -g csharp-jsonapi -o <output.cs>
 - [Thrift IDL Reference](../reference/thrift-idl.md) - Complete type system and
   syntax guide
 - [Getting Started Guide](../getting-started/quickstart.md) - Build your first
-  RpcNet API
+  NetRpc API

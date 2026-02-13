@@ -1,6 +1,6 @@
-# RpcNet
+# NetRpc
 
-RpcNet is a .NET tool for generating RPC clients and servers from Thrift IDL
+NetRpc is a .NET tool for generating RPC clients and servers from Thrift IDL
 files. It supports code generation for C# and TypeScript, enabling seamless
 cross-language RPC communication.
 
@@ -13,8 +13,8 @@ cross-language RPC communication.
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/AdeAttwood/RpcNet.git`
-1. Build the solution: `dotnet build RpcNet.sln`
+1. Clone the repository: `git clone https://github.com/AdeAttwood/NetRpc.git`
+1. Build the solution: `dotnet build NetRpc.sln`
 
 ## Usage
 
@@ -57,7 +57,3 @@ See the `samples/` directory for working examples:
 ## Contributing
 
 Contributions are welcome! Please submit issues and pull requests.
-
-## License
-
-MIT License. See LICENSE file for details.
