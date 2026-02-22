@@ -17,6 +17,9 @@ app.Configure(config =>
 
     config.AddCommand<LintCommand>("lint")
         .WithDescription("Lint thrift definitions");
+
+    config.AddCommand<LspCommand>("lsp")
+        .WithDescription("Start the lsp server over stdio");
 });
 
 return app.Run(args);
