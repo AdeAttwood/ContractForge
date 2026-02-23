@@ -17,8 +17,11 @@ namespace Test
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Status
     {
+        [JsonStringEnumMemberName("pending")]
         Pending = 1,
+        [JsonStringEnumMemberName("active")]
         Active = 2,
+        [JsonStringEnumMemberName("completed")]
         Completed = 3,
     }
 }

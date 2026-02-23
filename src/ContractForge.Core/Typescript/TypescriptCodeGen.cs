@@ -22,6 +22,7 @@ public class TypescriptCodeGen : ICodeGen
 
         _generators = new List<ITypeScriptGenerator>
         {
+            new TypeScriptEnumGenerator(_typeMapper),
             new TypeScriptStructGenerator(_typeMapper),
             new TypeScriptExceptionGenerator(_typeMapper),
             new TypeScriptUnionGenerator(_typeMapper),

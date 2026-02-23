@@ -30,6 +30,11 @@ public class CalculatorService : ICalculatorService
         return Task.FromResult(new NumberResult(result));
     }
 
+    public Task<CalculatorMode> EchoMode(CalculatorMode mode, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(mode);
+    }
+
     public Task<IAsyncEnumerable<long>> Range(NumberRequestParams requestParams, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting range from {A}", System.Text.Json.JsonSerializer.Serialize(requestParams));

@@ -1,4 +1,5 @@
 using ContractForge.Core.Types;
+using Inflector;
 
 namespace ContractForge.Core.Typescript;
 
@@ -16,6 +17,7 @@ public class TypeScriptTypeMapper
         {
             Struct s => s.Identifier,
             Union u => u.Identifier,
+            Types.Enum e => e.Identifier.Pascalize(),
             List l => $"Array<{ToTypeScriptType(l.InnerType)}>",
             Map m => $"Record<{ToTypeScriptType(m.Key)}, {ToTypeScriptType(m.Value)}>",
             Primitive p => p.Type switch
@@ -29,5 +31,21 @@ public class TypeScriptTypeMapper
             },
             _ => throw new Exception($"Unable to convert {type} to a TypeScript type"),
         };
+    }
+
+    public string ToTypeScriptEnumValue(EnumValue value)
+    {
+        var pascalCase = value.Name.Pascalize();
+        return char.ToLowerInvariant(pascalCase[0]) + pascalCase[1..];
+    }
+
+    public string ToTypeScriptEnumKey(EnumValue value)
+    {
+        return value.Name.Underscore().ToUpperInvariant();
+    }
+
+    public string ToPascalIdentifier(string identifier)
+    {
+        return identifier.Pascalize();
     }
 }

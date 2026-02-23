@@ -9,6 +9,7 @@ across Node.js, Deno, Bun, and browsers.
 This generator produces:
 
 - **Type-safe TypeScript interfaces** - DTOs for structs, exceptions, and unions
+- **Enum constants** - Runtime-safe `as const` objects with string union types
 - **Client classes** - Fetch-based HTTP clients with full type inference
 - **Dual methods for lists** - Regular (JSON) and streaming (NDJSON) methods
 - **Helper utilities** - Query parameter flattening and URL building
@@ -19,6 +20,7 @@ This generator produces:
 - ✅ Fetch API-based HTTP client (web standards)
 - ✅ Full TypeScript type safety with inference
 - ✅ Discriminated unions for type-safe error handling
+- ✅ Enum support via `as const` objects and string literal unions
 - ✅ Streaming support with AsyncIterable for large datasets
 - ✅ Dual method pattern: regular (JSON) and streaming (NDJSON)
 - ✅ Runtime compatibility: Node.js 18+, Deno, Bun, browsers
@@ -215,6 +217,36 @@ if (result.type === "success") {
 }
 ```
 
+### Enums
+
+Thrift enums become runtime-friendly `as const` objects plus string union types.
+Use `PascalCase` enum member names in Thrift (for example `NearlyDone`).
+
+**Thrift:**
+
+```thrift
+enum Progress {
+  NotStarted = 1,
+  InProgress = 2,
+  NearlyDone = 3
+}
+```
+
+**Generated TypeScript:**
+
+```typescript
+export const Progress = {
+  NOT_STARTED: "notStarted",
+  IN_PROGRESS: "inProgress",
+  NEARLY_DONE: "nearlyDone",
+} as const;
+
+export type Progress = typeof Progress[keyof typeof Progress];
+```
+
+This shape works in plain JavaScript at runtime and preserves strong typing in
+TypeScript.
+
 ### Client Class
 
 **Thrift:**
@@ -351,6 +383,7 @@ Complete mapping of Thrift types to TypeScript:
 | `map<K, V>` | `Record<K, V>`      | `{ "key": "value" }`              |
 | `struct`    | `interface`         | `{ id: 1, name: "John" }`         |
 | `exception` | `interface`         | `{ code: 404, message: "..." }`   |
+| `enum`      | `const` + type      | `Progress.NEARLY_DONE` / `"nearlyDone"` |
 | `union`     | discriminated union | `{ type: "success", success: 1 }` |
 
 ### Notes on Type Mappings
