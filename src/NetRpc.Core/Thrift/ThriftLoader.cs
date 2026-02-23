@@ -34,6 +34,9 @@ public class ThriftLoader : ILoader
         lexer.RemoveErrorListeners();
 
         var tokens = new CommonTokenStream(lexer);
+        tokens.Fill();
+        document.Tokens = tokens.GetTokens().ToList();
+
         var parser = new NetRpc.ThriftParser.ThriftParser(tokens);
 
         parser.RemoveErrorListeners();
@@ -46,6 +49,7 @@ public class ThriftLoader : ILoader
 
         // Run semantic analysis
         _linter.RunSemanticAnalysis(document);
+
 
         return document;
     }

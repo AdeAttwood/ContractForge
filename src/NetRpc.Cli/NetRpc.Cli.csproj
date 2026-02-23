@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../NetRpc.Core/NetRpc.Core.csproj" />
+    <ProjectReference Include="../NetRpc.Lsp/NetRpc.Lsp.csproj" />
   </ItemGroup>
 
 </Project>
