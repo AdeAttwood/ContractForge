@@ -263,6 +263,10 @@ service UserService {
 ```typescript
 export interface UserServiceClientOptions {
   host: string;
+  resolveHeaders?: (request: {
+    path: string;
+    method: "GET" | "POST";
+  }) => Promise<Record<string, string>> | Record<string, string>;
 }
 
 /**
@@ -418,6 +422,35 @@ const client = new UserServiceClient({
   host: "http://localhost:5000",
 });
 ```
+
+**Authentication Headers (Async):**
+
+Use `resolveHeaders` to inject headers per request (for example bearer tokens):
+
+```typescript
+const client = new UserServiceClient({
+  host: "http://localhost:5000",
+  resolveHeaders: async () => ({
+    Authorization: `Bearer ${await getAccessToken()}`,
+  }),
+});
+```
+
+`resolveHeaders` receives request context:
+
+```typescript
+type ResolveHeaders = (request: {
+  path: string;
+  method: "GET" | "POST";
+}) => Promise<Record<string, string>> | Record<string, string>;
+```
+
+Protocol headers are reserved and cannot be overridden by `resolveHeaders`.
+Generated clients always enforce:
+
+- `Content-Type: application/json`
+- `Accept: application/json` for regular requests
+- `Accept: application/x-ndjson` for streaming requests
 
 **Multiple Environments:**
 
