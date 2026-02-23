@@ -4,7 +4,7 @@ vars:
   PROJECT_NAME: DotnetJsonWebApi
   THRIFT_FILE: calculator.thrift
   GENERATED_FILE: Generated/CalculatorService.cs
-  CLI_PROJECT: ../../src/NetRpc.Cli/NetRpc.Cli.csproj
+  CLI_PROJECT: ../../src/ContractForge.Cli/ContractForge.Cli.csproj
 
 tasks:
   build:

@@ -1,7 +1,7 @@
 # CLI Reference
 
-The `rpcnet` CLI tool generates RPC client and server code from Thrift IDL
-files.
+The `contractforge` CLI tool generates RPC client and server code from Thrift
+IDL files.
 
 ## Commands
 
@@ -10,13 +10,13 @@ files.
 Generate code from Thrift definitions (default command).
 
 ```bash
-rpcnet generate [options]
+contractforge generate [options]
 ```
 
 Or simply:
 
 ```bash
-rpcnet [options]
+contractforge [options]
 ```
 
 #### Options
@@ -35,7 +35,7 @@ rpcnet [options]
 Generate C# code from a single Thrift file:
 
 ```bash
-rpcnet --entry service.thrift --generator csharp-jsonapi --output Service.cs
+contractforge --entry service.thrift --generator csharp-jsonapi --output Service.cs
 ```
 
 ### Multiple Entry Points
@@ -43,7 +43,7 @@ rpcnet --entry service.thrift --generator csharp-jsonapi --output Service.cs
 Generate code for multiple services that share common types:
 
 ```bash
-rpcnet \
+contractforge \
   --entry services/user.thrift \
   --entry services/order.thrift \
   --entry services/payment.thrift \
@@ -59,7 +59,7 @@ are automatically deduplicated and only generated once.
 If your Thrift files include other files from different directories:
 
 ```bash
-rpcnet \
+contractforge \
   --entry service.thrift \
   --include ./common \
   --include ./shared \
@@ -71,7 +71,7 @@ rpcnet \
 Generate a TypeScript client:
 
 ```bash
-rpcnet --entry api.thrift --generator typescript-client --output api-client.ts
+contractforge --entry api.thrift --generator typescript-client --output api-client.ts
 ```
 
 ## lint
@@ -79,5 +79,5 @@ rpcnet --entry api.thrift --generator typescript-client --output api-client.ts
 Lint Thrift definitions for errors and style issues.
 
 ```bash
-rpcnet lint --entry service.thrift
+contractforge lint --entry service.thrift
 ```

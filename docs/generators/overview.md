@@ -1,7 +1,7 @@
 # Generators Overview
 
-NetRpc uses **generators** to transform Thrift IDL files into working code for
-different platforms and purposes.
+ContractForge uses **generators** to transform Thrift IDL files into working
+code for different platforms and purposes.
 
 ## What Are Generators?
 
@@ -14,7 +14,7 @@ Generators are code generation engines that:
 
 ## Available Generators
 
-NetRpc currently provides two generators:
+ContractForge currently provides two generators:
 
 ### C# JSON API (`csharp-jsonapi`)
 
@@ -43,17 +43,17 @@ Generates web-standards TypeScript clients with:
 ### Basic Usage
 
 ```bash
-netrpc generate <generator> -i <input.thrift> -o <output>
+contractforge generate <generator> -i <input.thrift> -o <output>
 ```
 
 ### Examples
 
 ```bash
 # Generate C# server
-netrpc generate csharp-jsonapi -i service.thrift -o Server/Generated/
+contractforge generate csharp-jsonapi -i service.thrift -o Server/Generated/
 
 # Generate TypeScript client
-netrpc generate typescript-client -i service.thrift -o client.ts
+contractforge generate typescript-client -i service.thrift -o client.ts
 ```
 
 ### Common Options
@@ -83,7 +83,8 @@ graph LR
 
 ## Creating Custom Generators
 
-NetRpc's generator system is extensible. You can create custom generators for:
+ContractForge's generator system is extensible. You can create custom generators
+for:
 
 - Different languages (Python, Java, Go, etc.)
 - Different frameworks (Nancy, FastAPI, etc.)

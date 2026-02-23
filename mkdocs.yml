@@ -1,7 +1,7 @@
-site_name: NetRpc Documentation
+site_name: ContractForge Documentation
 site_description: .NET tool for generating RPC clients and servers from Thrift IDL
-repo_url: https://github.com/AdeAttwood/NetRpc
-repo_name: AdeAttwood/NetRpc
+repo_url: https://github.com/AdeAttwood/ContractForge
+repo_name: AdeAttwood/ContractForge
 edit_uri: edit/0.x/docs/
 
 theme:

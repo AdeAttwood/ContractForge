@@ -33,14 +33,15 @@ call a Calculator API from Node.js, Deno, Bun, or the browser.
 
 ### Prerequisites
 
-- NetRpc CLI installed
+- ContractForge CLI installed
 - Node.js 18+, Deno, or Bun
-- A running NetRpc server (see [C# Server Guide](csharp-jsonapi.md#quick-start))
+- A running ContractForge server (see
+  [C# Server Guide](csharp-jsonapi.md#quick-start))
 
 ### Step 1: Generate Client Code
 
 ```bash
-netrpc generate typescript-client -i calculator.thrift -o client.ts
+contractforge generate typescript-client -i calculator.thrift -o client.ts
 ```
 
 This creates a `client.ts` file with:
@@ -1034,7 +1035,7 @@ ok | 6 passed | 0 failed (61ms)
 Generate TypeScript client code from Thrift IDL:
 
 ```bash
-netrpc -e <input.thrift> -g typescript-client -o <output.ts>
+contractforge -e <input.thrift> -g typescript-client -o <output.ts>
 ```
 
 | Option            | Description                         | Required |
@@ -1046,7 +1047,7 @@ netrpc -e <input.thrift> -g typescript-client -o <output.ts>
 **Example:**
 
 ```bash
-netrpc -e api.thrift -g typescript-client -o generated/client.ts
+contractforge -e api.thrift -g typescript-client -o generated/client.ts
 ```
 
 ### Thrift Attributes

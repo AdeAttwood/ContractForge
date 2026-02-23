@@ -25,13 +25,13 @@ This generator produces:
 
 ## Quick Start
 
-Build your first C# API with NetRpc in 10 minutes. This guide walks you through
-creating a simple Calculator service.
+Build your first C# API with ContractForge in 10 minutes. This guide walks you
+through creating a simple Calculator service.
 
 ### Prerequisites
 
 - .NET 8.0 SDK
-- NetRpc CLI installed
+- ContractForge CLI installed
 - Basic familiarity with ASP.NET Core
 
 ### Step 1: Define Your API
@@ -53,7 +53,7 @@ service Calculator {
 ### Step 2: Generate Server Code
 
 ```bash
-netrpc generate csharp-jsonapi -i calculator.thrift -o Generated/
+contractforge generate csharp-jsonapi -i calculator.thrift -o Generated/
 ```
 
 This creates:
@@ -701,7 +701,7 @@ curl http://localhost:5050/rpc/calculator-service/range \
 ### CLI Options
 
 ```bash
-netrpc -e <input.thrift> -g csharp-jsonapi -o <output.cs>
+contractforge -e <input.thrift> -g csharp-jsonapi -o <output.cs>
 ```
 
 | Option            | Description                      |
@@ -746,4 +746,4 @@ netrpc -e <input.thrift> -g csharp-jsonapi -o <output.cs>
 - [Thrift IDL Reference](../reference/thrift-idl.md) - Complete type system and
   syntax guide
 - [Getting Started Guide](../getting-started/quickstart.md) - Build your first
-  NetRpc API
+  ContractForge API
