@@ -43,7 +43,12 @@ Deno.test.afterAll(() => {
   }
 });
 
-const client = new CalculatorClient({ host: "http://localhost:5050" });
+const client = new CalculatorClient({
+  host: "http://localhost:5050",
+  resolveHeaders: () => ({
+    "X-Client-Token": "sample-token",
+  }),
+});
 
 Deno.test("Calls the add method", async () => {
   const result = await client.add({ a: 1, b: 2 });
@@ -68,6 +73,17 @@ Deno.test("Calls the subtract method", async () => {
 Deno.test("Calls add two numbers", async () => {
   const result = await client.addTwoNumbers(1, 1);
   assertEquals(2, result);
+});
+
+Deno.test("Adds custom headers via resolveHeaders", async () => {
+  const result = await client.addTwoNumbers(2, 3);
+  assertEquals(5, result);
+});
+
+Deno.test("Returns 0 when client token is missing", async () => {
+  const noTokenClient = new CalculatorClient({ host: "http://localhost:5050" });
+  const result = await noTokenClient.addTwoNumbers(2, 3);
+  assertEquals(0, result);
 });
 
 Deno.test("Calls the subtract method with an error", async () => {
