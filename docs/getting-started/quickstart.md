@@ -1,17 +1,17 @@
 # Quickstart
 
-Get started with NetRpc in 5 minutes. This guide shows you how to define an API
+Get started with ContractForge in 5 minutes. This guide shows you how to define an API
 and generate code for your platform.
 
 ## What You'll Learn
 
 - How to define APIs with Thrift IDL
-- How to generate code with the NetRpc CLI
+- How to generate code with the ContractForge CLI
 - Where to go next for your use case
 
 ## Prerequisites
 
-- [NetRpc CLI installed](installation.md)
+- [ContractForge CLI installed](installation.md)
 - Your target runtime (.NET 8.0+, Node.js 18+, Deno, or Bun)
 
 ## Step 1: Define Your API
@@ -48,7 +48,7 @@ and serves as the contract between your client and server.
 
 ## Step 2: Generate Code
 
-NetRpc provides generators for different platforms. Choose based on what you're
+ContractForge provides generators for different platforms. Choose based on what you're
 building:
 
 ### Server Generators
@@ -58,7 +58,7 @@ Generate server-side code for your backend:
 #### C# ASP.NET Core
 
 ```bash
-netrpc generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
+contractforge generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
 ```
 
 **What you get:**
@@ -80,7 +80,7 @@ Generate client-side code for your frontend or service-to-service calls:
 #### TypeScript (Node/Deno/Bun/Browser)
 
 ```bash
-netrpc generate typescript-client -i calculator.thrift -o client.ts
+contractforge generate typescript-client -i calculator.thrift -o client.ts
 ```
 
 **What you get:**
@@ -115,10 +115,10 @@ Most projects use multiple generators together:
 
 ```bash
 # Backend API
-netrpc generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
+contractforge generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
 
 # Frontend client
-netrpc generate typescript-client -i calculator.thrift -o client/api.ts
+contractforge generate typescript-client -i calculator.thrift -o client/api.ts
 ```
 
 Both share the same Thrift IDL, ensuring type consistency across your stack.
@@ -129,13 +129,13 @@ Generate multiple services from different IDL files:
 
 ```bash
 # User service
-netrpc generate csharp-jsonapi -i user-service.thrift -o UserService/Generated/
+contractforge generate csharp-jsonapi -i user-service.thrift -o UserService/Generated/
 
 # Order service
-netrpc generate csharp-jsonapi -i order-service.thrift -o OrderService/Generated/
+contractforge generate csharp-jsonapi -i order-service.thrift -o OrderService/Generated/
 
 # Product service
-netrpc generate csharp-jsonapi -i product-service.thrift -o ProductService/Generated/
+contractforge generate csharp-jsonapi -i product-service.thrift -o ProductService/Generated/
 ```
 
 Each service can be developed, deployed, and scaled independently.
@@ -143,7 +143,7 @@ Each service can be developed, deployed, and scaled independently.
 ## What You've Learned
 
 - ✅ How to define APIs with Thrift IDL
-- ✅ How to generate code with the NetRpc CLI
+- ✅ How to generate code with the ContractForge CLI
 - ✅ Available generators for different platforms
 - ✅ Common project patterns
 
@@ -162,6 +162,6 @@ Ready to build? Continue with your chosen generator:
 ## Need Help?
 
 - **GitHub Issues**:
-  [Report bugs or request features](https://github.com/AdeAttwood/NetRpc/issues)
+  [Report bugs or request features](https://github.com/AdeAttwood/ContractForge/issues)
 - **GitHub Discussions**:
-  [Ask questions and share ideas](https://github.com/AdeAttwood/NetRpc/discussions)
+  [Ask questions and share ideas](https://github.com/AdeAttwood/ContractForge/discussions)
