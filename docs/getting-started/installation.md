@@ -1,18 +1,19 @@
 # Installation
 
-This guide will help you install NetRpc and set up your development environment.
+This guide will help you install ContractForge and set up your development
+environment.
 
 <!-- deno-fmt-ignore-start -->
 
 !!! warning "Pre-release Package"
-    NetRpc is not yet published to NuGet. Until the official release, you'll
+    ContractForge is not yet published to NuGet. Until the official release, you'll
     need to install from source. NuGet distribution is coming soon.
 
 <!-- deno-fmt-ignore-end -->
 
 ## Prerequisites
 
-Before installing NetRpc, ensure you have:
+Before installing ContractForge, ensure you have:
 
 - **.NET 8.0 SDK or later** -
   [Download here](https://dotnet.microsoft.com/download)
@@ -24,8 +25,8 @@ For TypeScript client development, you'll also need:
 
 ## Install from Source
 
-Since NetRpc is not yet available on NuGet, you'll need to build and install it
-from source:
+Since ContractForge is not yet available on NuGet, you'll need to build and
+install it from source:
 
 ### Prerequisites for Source Installation
 
@@ -40,8 +41,8 @@ In addition to the prerequisites above, you'll need:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/AdeAttwood/NetRpc.git
-   cd NetRpc
+   git clone https://github.com/AdeAttwood/ContractForge.git
+   cd ContractForge
    ```
 
 2. **Install using Task** (recommended):
@@ -59,27 +60,27 @@ In addition to the prerequisites above, you'll need:
 
    ```bash
    # Uninstall previous version if it exists
-   dotnet tool uninstall --global netrpc.cli
+   dotnet tool uninstall --global ContractForge.Cli
 
    # Build and pack the project
    dotnet pack -c Release /p:Version=0.0.0-alpha
 
    # Install the tool globally
-   dotnet tool install -g --prerelease --add-source ./src/NetRpc.Cli/bin/Release NetRpc.Cli
+   dotnet tool install -g --prerelease --add-source ./src/ContractForge.Cli/bin/Release ContractForge.Cli
    ```
 
 ### Verify Installation
 
-Check that NetRpc is installed correctly:
+Check that ContractForge is installed correctly:
 
 ```bash
-netrpc --version
+contractforge --version
 ```
 
 You should see output similar to:
 
 ```
-NetRpc.Cli 1.0.0
+ContractForge 1.0.0
 ```
 
 ### Update from Source
@@ -99,36 +100,37 @@ task install
 If you need to uninstall:
 
 ```bash
-dotnet tool uninstall --global netrpc.cli
+dotnet tool uninstall --global ContractForge.Cli
 ```
 
 ## Install from NuGet (Coming Soon)
 
-Once NetRpc is published to NuGet, you'll be able to install it using:
+Once ContractForge is published to NuGet, you'll be able to install it using:
 
 ```bash
-dotnet tool install --global NetRpc.Cli
+dotnet tool install --global ContractForge.Cli
 ```
 
 And update with:
 
 ```bash
-dotnet tool update --global NetRpc.Cli
+dotnet tool update --global ContractForge.Cli
 ```
 
 ## Next Steps
 
-Now that NetRpc is installed, you're ready to:
+Now that ContractForge is installed, you're ready to:
 
 - [Follow the Quickstart guide](quickstart.md) to build your first API
-- [Explore the generators](../generators/overview.md) to understand what NetRpc
-  can generate
+- [Explore the generators](../generators/overview.md) to understand what
+  ContractForge can generate
 
 ## Getting Help
 
 If you encounter issues not covered here:
 
-- Check the [GitHub Issues](https://github.com/AdeAttwood/NetRpc/issues)
-- Ask in [GitHub Discussions](https://github.com/AdeAttwood/NetRpc/discussions)
+- Check the [GitHub Issues](https://github.com/AdeAttwood/ContractForge/issues)
+- Ask in
+  [GitHub Discussions](https://github.com/AdeAttwood/ContractForge/discussions)
 - Review the [CLI Reference](../reference/cli.md) for detailed command
   documentation

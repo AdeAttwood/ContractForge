@@ -1,15 +1,15 @@
 # Thrift IDL Reference
 
-NetRpc uses Thrift Interface Definition Language (IDL) to define RPC services,
-data types, and API contracts. This reference covers all supported features and
-syntax for defining type-safe, cross-language APIs.
+ContractForge uses Thrift Interface Definition Language (IDL) to define RPC
+services, data types, and API contracts. This reference covers all supported
+features and syntax for defining type-safe, cross-language APIs.
 
 ## Overview
 
-NetRpc's Thrift IDL implementation focuses on single-file service definitions,
-making it ideal for building modern RPC APIs without the complexity of
-multi-file type systems. All definitions—types, services, and exceptions—coexist
-in a single `.thrift` file.
+ContractForge's Thrift IDL implementation focuses on single-file service
+definitions, making it ideal for building modern RPC APIs without the complexity
+of multi-file type systems. All definitions—types, services, and
+exceptions—coexist in a single `.thrift` file.
 
 **Key Characteristics:**
 
@@ -23,7 +23,7 @@ in a single `.thrift` file.
 
 ### Primitive Types
 
-NetRpc supports 10 primitive types that map to native types in C# and
+ContractForge supports 10 primitive types that map to native types in C# and
 TypeScript:
 
 | Thrift Type | Description           | C# Type  | TypeScript Type |
@@ -575,9 +575,9 @@ This example demonstrates:
 
 ## Limitations
 
-NetRpc focuses on single-file service definitions for the MVP. The following
-standard Thrift features are **not currently supported** but are planned for
-future releases:
+ContractForge focuses on single-file service definitions for the MVP. The
+following standard Thrift features are **not currently supported** but are
+planned for future releases:
 
 ### Planned for Future Releases
 
@@ -770,5 +770,5 @@ service DataService {
 - [TypeScript Client Generator](../generators/typescript-client.md) - Generate
   type-safe TypeScript clients
 - [Getting Started Guide](../getting-started/quickstart.md) - Build your first
-  NetRpc API
+  ContractForge API
 - [CLI Reference](cli.md) - Command-line tool options and usage
