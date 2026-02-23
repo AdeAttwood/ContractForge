@@ -205,27 +205,30 @@ if (result.type === "success") {
 
 Named integer constants with auto-increment support:
 
+Recommended style: use `PascalCase` for enum member names in Thrift (for
+example `NearlyDone`).
+
 ```thrift
 enum Status {
-  PENDING = 1,
-  ACTIVE = 2,
-  COMPLETED = 3
+  Pending = 1,
+  Active = 2,
+  Completed = 3
 }
 
 // Auto-increment from 0
 enum Priority {
-  LOW,      // 0
-  MEDIUM,   // 1
-  HIGH,     // 2
-  URGENT    // 3
+  Low,      // 0
+  Medium,   // 1
+  High,     // 2
+  Urgent    // 3
 }
 
 // Mixed explicit and auto-increment
 enum Color {
-  RED = 1,
-  GREEN,    // 2
-  BLUE = 10,
-  YELLOW    // 11
+  Red = 1,
+  Green,    // 2
+  Blue = 10,
+  Yellow    // 11
 }
 ```
 
@@ -247,10 +250,10 @@ enum TaskPriority {
   /**
    * Low priority tasks
    */
-  LOW = 0,
-  NORMAL = 1,
-  HIGH = 2,
-  CRITICAL = 3
+  Low = 0,
+  Normal = 1,
+  High = 2,
+  Critical = 3
 }
 ```
 

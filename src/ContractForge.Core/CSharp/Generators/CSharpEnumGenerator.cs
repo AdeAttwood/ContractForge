@@ -25,12 +25,14 @@ public class CSharpEnumGenerator : ICSharpGenerator
             foreach (var value in enumType.Values.Values)
             {
                 CSharpDocumentationHelper.AppendXmlDocComment(builder, value.Description, indent + 4);
-                // Convert ALL_CAPS names to PascalCase (PENDING -> Pending)
-                var pascalName = value.Name.ToLower().Pascalize();
+                var pascalName = value.Name.Pascalize();
+                var serializedName = pascalName.Camelize();
+                builder.AppendFormat("{0}    [JsonStringEnumMemberName(\"{1}\")]\n", prefix, serializedName);
                 builder.AppendFormat("{0}    {1} = {2},\n", prefix, pascalName, value.Value);
             }
 
             builder.AppendFormat("{0}}}\n", prefix);
         }
     }
+
 }
