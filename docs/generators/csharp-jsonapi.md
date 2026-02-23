@@ -53,7 +53,7 @@ service Calculator {
 ### Step 2: Generate Server Code
 
 ```bash
-netrpc generate csharp-jsonapi -i calculator.thrift -o Generated/
+contractforge generate csharp-jsonapi -i calculator.thrift -o Generated/
 ```
 
 This creates:
@@ -701,7 +701,7 @@ curl http://localhost:5050/rpc/calculator-service/range \
 ### CLI Options
 
 ```bash
-netrpc -e <input.thrift> -g csharp-jsonapi -o <output.cs>
+contractforge -e <input.thrift> -g csharp-jsonapi -o <output.cs>
 ```
 
 | Option            | Description                      |

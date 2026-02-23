@@ -1,6 +1,6 @@
 ```
 curl -O https://www.antlr.org/download/antlr-4.13.2-complete.jar
-java -jar ./artifacts/antlr-4.13.2-complete.jar -Dlanguage=CSharp -package NetRpc.ThriftParser  -visitor -listener ./src/NetRpc.ThriftParser/Thrift.g4 -o ./src/NetRpc.ThriftParser
+java -jar ./artifacts/antlr-4.13.2-complete.jar -Dlanguage=CSharp -package NetRpc.ThriftParser  -visitor -listener ./src/ContractForge.ThriftParser/Thrift.g4 -o ./src/ContractForge.ThriftParser
 ```
 
 ```

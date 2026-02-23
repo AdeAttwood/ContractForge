@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/NetRpc.Core/NetRpc.Core.csproj" />
+    <ProjectReference Include="../../src/ContractForge.Core/ContractForge.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

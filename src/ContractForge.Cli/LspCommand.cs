@@ -2,7 +2,7 @@ using NetRpc.Lsp;
 
 using Spectre.Console.Cli;
 
-namespace NetRpc.Cli;
+namespace ContractForge.Cli;
 
 public class LspCommand : AsyncCommand<LspCommand.Settings>
 {

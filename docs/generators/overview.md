@@ -43,17 +43,17 @@ Generates web-standards TypeScript clients with:
 ### Basic Usage
 
 ```bash
-netrpc generate <generator> -i <input.thrift> -o <output>
+contractforge generate <generator> -i <input.thrift> -o <output>
 ```
 
 ### Examples
 
 ```bash
 # Generate C# server
-netrpc generate csharp-jsonapi -i service.thrift -o Server/Generated/
+contractforge generate csharp-jsonapi -i service.thrift -o Server/Generated/
 
 # Generate TypeScript client
-netrpc generate typescript-client -i service.thrift -o client.ts
+contractforge generate typescript-client -i service.thrift -o client.ts
 ```
 
 ### Common Options

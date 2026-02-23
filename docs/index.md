@@ -20,13 +20,13 @@ JSON, and modern web APIs.
 
 ```bash
 # Install the CLI tool
-dotnet tool install -g NetRpc.Cli
+dotnet tool install -g ContractForge.Cli
 
 # Generate a server from Thrift IDL
-netrpc generate csharp-jsonapi -i service.thrift -o Generated/
+contractforge generate csharp-jsonapi -i service.thrift -o Generated/
 
 # Generate a TypeScript client
-netrpc generate typescript-client -i service.thrift -o client.ts
+contractforge generate typescript-client -i service.thrift -o client.ts
 ```
 
 ## Who Is This For?

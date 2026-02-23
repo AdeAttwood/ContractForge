@@ -8,7 +8,7 @@ using NetRpc.Core.Typescript;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace NetRpc.Cli;
+namespace ContractForge.Cli;
 
 public class CodeGenCommand : Command<CodeGenCommand.Settings>
 {

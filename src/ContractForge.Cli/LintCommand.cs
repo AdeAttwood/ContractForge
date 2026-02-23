@@ -7,7 +7,7 @@ using NetRpc.Core.Types;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace NetRpc.Cli;
+namespace ContractForge.Cli;
 
 public class LintCommand : Command<LintCommand.Settings>
 {

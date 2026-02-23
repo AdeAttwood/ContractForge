@@ -5,17 +5,17 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetRpc.Cli", "src\NetRpc.Cli\NetRpc.Cli.csproj", "{E0D2B545-8912-4FA1-ADC7-A5E025A0B505}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractForge.Cli", "src\ContractForge.Cli\ContractForge.Cli.csproj", "{E0D2B545-8912-4FA1-ADC7-A5E025A0B505}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetRpc.Core", "src\NetRpc.Core\NetRpc.Core.csproj", "{EC75AA53-6F42-44B0-B8AC-0ED52409CF04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractForge.Core", "src\ContractForge.Core\ContractForge.Core.csproj", "{EC75AA53-6F42-44B0-B8AC-0ED52409CF04}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0C88DD14-F956-CE84-757C-A364CCF449FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetRpc.Core.Test", "test\NetRpc.Core.Test\NetRpc.Core.Test.csproj", "{5A27FF70-7C08-44AF-B266-2F692A75CE36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetRpc.ThriftParser", "src\NetRpc.ThriftParser\NetRpc.ThriftParser.csproj", "{2F9B64CE-3139-472E-AAB1-2389FE9F2EB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractForge.ThriftParser", "src\ContractForge.ThriftParser\ContractForge.ThriftParser.csproj", "{2F9B64CE-3139-472E-AAB1-2389FE9F2EB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetRpc.Lsp", "src\NetRpc.Lsp\NetRpc.Lsp.csproj", "{7B259550-C2D4-46F6-9476-A0B0DC8FB8A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractForge.Lsp", "src\ContractForge.Lsp\ContractForge.Lsp.csproj", "{7B259550-C2D4-46F6-9476-A0B0DC8FB8A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetRpc.Lsp.Test", "test\NetRpc.Lsp.Test\NetRpc.Lsp.Test.csproj", "{FA566983-CB74-4A2F-ADAD-E24C80B41673}"
 EndProject

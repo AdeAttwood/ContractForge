@@ -7,8 +7,10 @@
     <Nullable>enable</Nullable>
 
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>netrpc</ToolCommandName>
-    <Description>.NET tool for generating RPC clients and servers from Thrift IDL</Description>
+    <ToolCommandName>contractforge</ToolCommandName>
+    <PackageId>ContractForge.Cli</PackageId>
+    <Title>ContractForge</Title>
+    <Description>ContractForge is a .NET tool for generating RPC clients and servers from Thrift IDL</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/AdeAttwood/NetRpc</PackageProjectUrl>
@@ -25,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../NetRpc.Core/NetRpc.Core.csproj" />
-    <ProjectReference Include="../NetRpc.Lsp/NetRpc.Lsp.csproj" />
+    <ProjectReference Include="../ContractForge.Core/ContractForge.Core.csproj" />
+    <ProjectReference Include="../ContractForge.Lsp/ContractForge.Lsp.csproj" />
   </ItemGroup>
 
 </Project>

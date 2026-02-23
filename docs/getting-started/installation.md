@@ -59,13 +59,13 @@ In addition to the prerequisites above, you'll need:
 
    ```bash
    # Uninstall previous version if it exists
-   dotnet tool uninstall --global netrpc.cli
+   dotnet tool uninstall --global ContractForge.Cli
 
    # Build and pack the project
    dotnet pack -c Release /p:Version=0.0.0-alpha
 
    # Install the tool globally
-   dotnet tool install -g --prerelease --add-source ./src/NetRpc.Cli/bin/Release NetRpc.Cli
+   dotnet tool install -g --prerelease --add-source ./src/ContractForge.Cli/bin/Release ContractForge.Cli
    ```
 
 ### Verify Installation
@@ -73,13 +73,13 @@ In addition to the prerequisites above, you'll need:
 Check that NetRpc is installed correctly:
 
 ```bash
-netrpc --version
+contractforge --version
 ```
 
 You should see output similar to:
 
 ```
-NetRpc.Cli 1.0.0
+ContractForge 1.0.0
 ```
 
 ### Update from Source
@@ -99,7 +99,7 @@ task install
 If you need to uninstall:
 
 ```bash
-dotnet tool uninstall --global netrpc.cli
+dotnet tool uninstall --global ContractForge.Cli
 ```
 
 ## Install from NuGet (Coming Soon)
@@ -107,13 +107,13 @@ dotnet tool uninstall --global netrpc.cli
 Once NetRpc is published to NuGet, you'll be able to install it using:
 
 ```bash
-dotnet tool install --global NetRpc.Cli
+dotnet tool install --global ContractForge.Cli
 ```
 
 And update with:
 
 ```bash
-dotnet tool update --global NetRpc.Cli
+dotnet tool update --global ContractForge.Cli
 ```
 
 ## Next Steps

@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NetRpc.Lsp\NetRpc.Lsp.csproj" />
-    <ProjectReference Include="..\..\src\NetRpc.Core\NetRpc.Core.csproj" />
+    <ProjectReference Include="..\..\src\ContractForge.Lsp\ContractForge.Lsp.csproj" />
+    <ProjectReference Include="..\..\src\ContractForge.Core\ContractForge.Core.csproj" />
   </ItemGroup>
 
 </Project>

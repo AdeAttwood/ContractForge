@@ -58,7 +58,7 @@ Generate server-side code for your backend:
 #### C# ASP.NET Core
 
 ```bash
-netrpc generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
+contractforge generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
 ```
 
 **What you get:**
@@ -80,7 +80,7 @@ Generate client-side code for your frontend or service-to-service calls:
 #### TypeScript (Node/Deno/Bun/Browser)
 
 ```bash
-netrpc generate typescript-client -i calculator.thrift -o client.ts
+contractforge generate typescript-client -i calculator.thrift -o client.ts
 ```
 
 **What you get:**
@@ -115,10 +115,10 @@ Most projects use multiple generators together:
 
 ```bash
 # Backend API
-netrpc generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
+contractforge generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
 
 # Frontend client
-netrpc generate typescript-client -i calculator.thrift -o client/api.ts
+contractforge generate typescript-client -i calculator.thrift -o client/api.ts
 ```
 
 Both share the same Thrift IDL, ensuring type consistency across your stack.
@@ -129,13 +129,13 @@ Generate multiple services from different IDL files:
 
 ```bash
 # User service
-netrpc generate csharp-jsonapi -i user-service.thrift -o UserService/Generated/
+contractforge generate csharp-jsonapi -i user-service.thrift -o UserService/Generated/
 
 # Order service
-netrpc generate csharp-jsonapi -i order-service.thrift -o OrderService/Generated/
+contractforge generate csharp-jsonapi -i order-service.thrift -o OrderService/Generated/
 
 # Product service
-netrpc generate csharp-jsonapi -i product-service.thrift -o ProductService/Generated/
+contractforge generate csharp-jsonapi -i product-service.thrift -o ProductService/Generated/
 ```
 
 Each service can be developed, deployed, and scaled independently.

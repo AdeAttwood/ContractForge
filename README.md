@@ -20,23 +20,23 @@ cross-language RPC communication.
 
 ### Installing the Tool
 
-1. Build and pack the tool: `dotnet pack src/NetRpc.Cli/NetRpc.Cli.csproj`
+1. Build and pack the tool: `dotnet pack src/ContractForge.Cli/ContractForge.Cli.csproj`
 2. Install globally:
-   `dotnet tool install -g --add-source ./src/NetRpc.Cli/bin/Release rpcnet.cli`
+   `dotnet tool install -g --add-source ./src/ContractForge.Cli/bin/Release ContractForge.Cli`
 
 ### CLI Tool
 
 Run the installed tool to generate code from a Thrift file:
 
 ```bash
-rpcnet --entry path/to/thrift/file.thrift --generator csharp-jsonapi
+contractforge --entry path/to/thrift/file.thrift --generator csharp-jsonapi
 ```
 
 You can also specify multiple entry points for services that share common
 includes:
 
 ```bash
-rpcnet --entry service1.thrift --entry service2.thrift --generator csharp-jsonapi
+contractforge --entry service1.thrift --entry service2.thrift --generator csharp-jsonapi
 ```
 
 Options:
@@ -51,7 +51,7 @@ Options:
   defaults to console).
 
 Generated code is output to the console by default. Redirect to a file if
-needed, e.g., `rpcnet ... > output.cs`, or use the `--output` option.
+needed, e.g., `contractforge ... > output.cs`, or use the `--output` option.
 
 ## Examples
 

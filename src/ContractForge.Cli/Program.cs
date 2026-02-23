@@ -2,7 +2,7 @@
 
 using System.Globalization;
 
-using NetRpc.Cli;
+using ContractForge.Cli;
 
 using Spectre.Console.Cli;
 

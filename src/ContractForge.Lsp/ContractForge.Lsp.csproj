@@ -3,6 +3,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>ContractForge.Lsp</PackageId>
+    <Title>ContractForge.Lsp</Title>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,6 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../NetRpc.Core/NetRpc.Core.csproj" />
+    <ProjectReference Include="../ContractForge.Core/ContractForge.Core.csproj" />
   </ItemGroup>
 </Project>

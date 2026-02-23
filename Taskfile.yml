@@ -4,8 +4,8 @@ vars:
   ANTLR_VERSION: 4.13.2
   ANTLR_JAR: artifacts/antlr-{{.ANTLR_VERSION}}-complete.jar
   ANTLR_URL: https://www.antlr.org/download/antlr-{{.ANTLR_VERSION}}-complete.jar
-  PARSER_GRAMMAR: src/NetRpc.ThriftParser/Thrift.g4
-  PARSER_OUTPUT: src/NetRpc.ThriftParser
+  PARSER_GRAMMAR: src/ContractForge.ThriftParser/Thrift.g4
+  PARSER_OUTPUT: src/ContractForge.ThriftParser
   SAMPLES: DotnetJsonWebApi DenoTypescriptClient
 
 includes:
@@ -50,10 +50,10 @@ tasks:
   install:
     desc: Install the cli tool locally as a dotnet tool
     cmds:
-      - cmd: dotnet tool uninstall --global netrpc.cli
+      - cmd: dotnet tool uninstall --global ContractForge.Cli
         ignore_error: true
       - dotnet pack -c Release /p:Version=0.0.0-alpha
-      - dotnet tool install -g --prerelease --add-source ./src/NetRpc.Cli/bin/Release  NetRpc.Cli
+      - dotnet tool install -g --prerelease --add-source ./src/ContractForge.Cli/bin/Release ContractForge.Cli
 
   format:
     desc: Format code using dotnet format
@@ -64,7 +64,7 @@ tasks:
   run-cli:
     desc: Run CLI with arguments (use -- to pass args)
     cmds:
-      - dotnet run --project src/NetRpc.Cli/NetRpc.Cli.csproj -- {{.CLI_ARGS}}
+      - dotnet run --project src/ContractForge.Cli/ContractForge.Cli.csproj -- {{.CLI_ARGS}}
 
   download-antlr:
     desc: Download ANTLR {{.ANTLR_VERSION}} jar to artifacts/
@@ -93,7 +93,7 @@ tasks:
 
   # Build tasks
   build-parser:
-    desc: Build NetRpc.ThriftParser using ANTLR
+    desc: Build ContractForge.ThriftParser using ANTLR
     deps:
       - download-antlr
     cmds:
