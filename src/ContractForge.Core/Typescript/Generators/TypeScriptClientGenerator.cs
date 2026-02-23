@@ -25,6 +25,7 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
                 """
                 export interface {0}ClientOptions {{
                   host: string;
+                  resolveHeaders?: (request: {{ path: string; method: 'GET' | 'POST' }}) => Promise<Record<string, string>> | Record<string, string>;
                 }}
 
                 """,
@@ -55,6 +56,18 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
                       return JSON.stringify(obj);
                   }}
 
+                  private async buildHeaders(
+                    path: string,
+                    method: 'GET' | 'POST'
+                  ): Promise<Record<string, string>> {{
+                    const resolvedHeaders = await this.options.resolveHeaders?.({{ path, method }}) ?? {{}};
+
+                    return {{
+                      ...resolvedHeaders,
+                      "Content-Type": "application/json",
+                    }};
+                  }}
+
                   private async request(
                     path: string,
                     method: 'GET' | 'POST',
@@ -63,14 +76,15 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
                     const url = method === 'GET'
                       ? this.buildUrl(path, params as Record<string, unknown>)
                       : this.buildUrl(path, {{}});
+                    const headers = {{
+                      ...(await this.buildHeaders(path, method)),
+                      "Accept": "application/json",
+                    }};
 
                     return await fetch(url.toString(), {{
                       method,
                       body: method === 'POST' ? this.serialize(params) : undefined,
-                      headers: {{
-                        "Content-Type": "application/json",
-                        "Accept": "application/json",
-                      }}
+                      headers,
                     }})
                     .then(r => r.json())
                     .catch(e => e);
@@ -84,14 +98,15 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
                     const url = method === 'GET'
                       ? this.buildUrl(path, params as Record<string, unknown>)
                       : this.buildUrl(path, {{}});
+                    const headers = {{
+                      ...(await this.buildHeaders(path, method)),
+                      "Accept": "application/x-ndjson",
+                    }};
 
                     const response = await fetch(url.toString(), {{
                       method,
                       body: method === 'POST' ? this.serialize(params) : undefined,
-                      headers: {{
-                        "Content-Type": "application/json",
-                        "Accept": "application/x-ndjson",
-                      }}
+                      headers,
                     }});
 
                     if (!response.ok) {{
