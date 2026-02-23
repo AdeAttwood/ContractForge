@@ -10,6 +10,11 @@ union NumberResult {
   GenericError genericError
 }
 
+enum CalculatorMode {
+  Standard = 0,
+  Scientific = 1
+}
+
 /**
  * The parameters to send to some of the calculator service methods.
  */
@@ -36,6 +41,10 @@ service Calculator {
    * Add two numbers that are bound to multiple params
    */
   i32 addTwoNumbers(i32 a, i32 b) (http.method = "get"),
+  /**
+   * Echo the calculator mode for enum round-trip testing.
+   */
+  CalculatorMode echoMode(CalculatorMode mode),
   /**
    * Subtract two numbers. The result of `a - b` will be returned.
    */

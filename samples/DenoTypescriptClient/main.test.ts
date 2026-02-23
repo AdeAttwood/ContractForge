@@ -1,5 +1,8 @@
 import { assert, assertEquals } from "@std/assert";
-import { CalculatorClient } from "./generated/calculator-service.gen.ts";
+import {
+  CalculatorClient,
+  CalculatorMode,
+} from "./generated/calculator-service.gen.ts";
 
 let process: Deno.ChildProcess;
 
@@ -79,6 +82,11 @@ Deno.test("Calls the subtract method with an error", async () => {
       result.genericError.message,
     );
   }
+});
+
+Deno.test("Round-trips enum values", async () => {
+  const result = await client.echoMode(CalculatorMode.SCIENTIFIC);
+  assertEquals(CalculatorMode.SCIENTIFIC, result);
 });
 
 Deno.test("Calls the range with await json", async () => {

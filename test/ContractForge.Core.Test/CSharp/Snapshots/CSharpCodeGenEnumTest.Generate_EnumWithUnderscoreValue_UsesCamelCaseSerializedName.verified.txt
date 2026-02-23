@@ -15,13 +15,9 @@ namespace Test
     using System.ComponentModel.DataAnnotations;
     using Microsoft.AspNetCore.Authorization;
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum Priority
+    public enum Progress
     {
-        [JsonStringEnumMemberName("low")]
-        Low = -1,
-        [JsonStringEnumMemberName("normal")]
-        Normal = 0,
-        [JsonStringEnumMemberName("high")]
-        High = 1,
+        [JsonStringEnumMemberName("nearlyDone")]
+        NearlyDone = 1,
     }
 }
