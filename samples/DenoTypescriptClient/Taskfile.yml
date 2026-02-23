@@ -4,7 +4,7 @@ vars:
   PROJECT_NAME: DenoTypescriptClient
   THRIFT_FILE: ../DotnetJsonWebApi/calculator.thrift
   GENERATED_FILE: generated/calculator-service.gen.ts
-  CONTRACTFORGE_CLI: contractforge
+  CLI_PROJECT: ../../src/ContractForge.Cli/ContractForge.Cli.csproj
 
 tasks:
   check:

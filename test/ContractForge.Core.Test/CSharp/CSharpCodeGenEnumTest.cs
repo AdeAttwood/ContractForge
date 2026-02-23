@@ -13,9 +13,9 @@ public class CSharpCodeGenEnumTest
             namespace cs Test
 
             enum Status {
-                PENDING = 1,
-                ACTIVE = 2,
-                COMPLETED = 3
+                Pending = 1,
+                Active = 2,
+                Completed = 3
             }
         ");
 
@@ -37,9 +37,9 @@ public class CSharpCodeGenEnumTest
             namespace cs Test
 
             enum Priority {
-                LOW = -1,
-                NORMAL = 0,
-                HIGH = 1
+                Low = -1,
+                Normal = 0,
+                High = 1
             }
         ");
 
@@ -61,13 +61,35 @@ public class CSharpCodeGenEnumTest
             namespace cs Test
 
             enum Status {
-                PENDING = 1,
-                ACTIVE = 2
+                Pending = 1,
+                Active = 2
             }
 
             struct Task {
                 1: required string name,
                 2: required Status status
+            }
+        ");
+
+        Assert.Empty(document.Errors);
+
+        var state = new DefinitionState();
+        state.Documents.Add("test.thrift", document);
+
+        var generator = new CSharpCodeGen();
+        var result = generator.Build(state);
+
+        return Verify(result.Output).UseDirectory("Snapshots");
+    }
+
+    [Fact]
+    public Task Generate_EnumWithUnderscoreValue_UsesCamelCaseSerializedName()
+    {
+        var document = LoadThrift(@"
+            namespace cs Test
+
+            enum Progress {
+                NearlyDone = 1
             }
         ");
 
