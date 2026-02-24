@@ -709,6 +709,10 @@ contractforge -e <input.thrift> -g csharp-jsonapi -o <output.cs>
 | `-e, --entry`     | Path to the Thrift IDL file      |
 | `-g, --generator` | Generator name: `csharp-jsonapi` |
 | `-o, --output`    | Output file path                 |
+| `-O, --option`    | Generator option (`partial=true`) |
+
+Generator options are specified as `key=value` and can be provided multiple times. Use
+`-O partial=true` to emit partial class declarations for generated DTOs.
 
 ### Thrift Attributes
 
