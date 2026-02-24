@@ -18,12 +18,12 @@ public abstract class CodeGenTestBase
         return loader.Load(document, new DefinitionState());
     }
 
-    protected CodeGenResult GenerateCSharp(string thriftContent)
+    protected CodeGenResult GenerateCSharp(string thriftContent, CSharpCodeGenOptions? options = null)
     {
         var document = LoadThrift(thriftContent);
         var state = new DefinitionState();
         state.Documents.Add("test.thrift", document);
-        var generator = new CSharpCodeGen();
+        var generator = new CSharpCodeGen(options);
         return generator.Build(state);
     }
 

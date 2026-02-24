@@ -27,6 +27,7 @@ contractforge [options]
 | `--generator` | `-g`  | Code generator to use. Options: `csharp-jsonapi`, `typescript-client`.                     |
 | `--include`   | `-i`  | Add a directory to search for include directives. Can be specified multiple times.         |
 | `--output`    | `-o`  | Output file path (optional, defaults to console output).                                   |
+| `--option`    | `-O`  | Generator option in `key=value` format. Can be specified multiple times.                   |
 
 ## Examples
 

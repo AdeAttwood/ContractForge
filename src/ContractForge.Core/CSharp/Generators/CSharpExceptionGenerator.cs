@@ -1,5 +1,6 @@
 using System.Text;
 
+using ContractForge.Core.CSharp;
 using ContractForge.Core.Types;
 
 using Inflector;
@@ -12,10 +13,12 @@ namespace ContractForge.Core.CSharp.Generators;
 public class CSharpExceptionGenerator : ICSharpGenerator
 {
     private readonly CSharpTypeMapper _typeMapper;
+    private readonly CSharpCodeGenOptions _options;
 
-    public CSharpExceptionGenerator(CSharpTypeMapper typeMapper)
+    public CSharpExceptionGenerator(CSharpTypeMapper typeMapper, CSharpCodeGenOptions options)
     {
         _typeMapper = typeMapper;
+        _options = options;
     }
 
     public void Generate(StringBuilder builder, Document document, List<Error> errors, int indent)
@@ -25,7 +28,8 @@ public class CSharpExceptionGenerator : ICSharpGenerator
         foreach (var exceptionStructType in document.Exceptions.Values)
         {
             CSharpDocumentationHelper.AppendXmlDocComment(builder, exceptionStructType.Description, indent);
-            builder.AppendFormat("{0}public class {1} : Exception\n", prefix, exceptionStructType.Identifier);
+            var classModifier = _options.UsePartialClasses ? "partial " : "";
+            builder.AppendFormat("{0}public {1}class {2} : Exception\n", prefix, classModifier, exceptionStructType.Identifier);
             builder.AppendFormat("{0}{{\n", prefix);
 
             foreach (var field in exceptionStructType.Fields.Values)

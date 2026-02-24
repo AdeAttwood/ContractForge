@@ -1,5 +1,6 @@
 using System.Text;
 
+using ContractForge.Core.CSharp;
 using ContractForge.Core.Types;
 
 using Inflector;
@@ -12,10 +13,12 @@ namespace ContractForge.Core.CSharp.Generators;
 public class CSharpUnionGenerator : ICSharpGenerator
 {
     private readonly CSharpTypeMapper _typeMapper;
+    private readonly CSharpCodeGenOptions _options;
 
-    public CSharpUnionGenerator(CSharpTypeMapper typeMapper)
+    public CSharpUnionGenerator(CSharpTypeMapper typeMapper, CSharpCodeGenOptions options)
     {
         _typeMapper = typeMapper;
+        _options = options;
     }
 
     public void Generate(StringBuilder builder, Document document, List<Error> errors, int indent)
@@ -39,7 +42,8 @@ public class CSharpUnionGenerator : ICSharpGenerator
 
             // Generate the union class
             CSharpDocumentationHelper.AppendXmlDocComment(builder, union.Description, indent);
-            builder.AppendFormat("{0}public class {1}\n", prefix, union.Identifier);
+            var classModifier = _options.UsePartialClasses ? "partial " : "";
+            builder.AppendFormat("{0}public {1}class {2}\n", prefix, classModifier, union.Identifier);
             builder.AppendFormat("{0}{{\n", prefix);
 
             builder.AppendFormat("{0}    [JsonPropertyName(\"type\")]\n", prefix);
