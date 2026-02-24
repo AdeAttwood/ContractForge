@@ -26,6 +26,10 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
         [CommandOption("-o|--output")]
         public string? OutputFile { get; init; }
 
+        [Description("Generator option in key=value format. Can be specified multiple times.")]
+        [CommandOption("-O|--option")]
+        public string[]? Options { get; init; }
+
         [Description("Add a directory to the list of directories searched for include directives")]
         [CommandOption("-i|--include")]
         public string[]? IncludePaths { get; init; }
@@ -77,7 +81,7 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
 
         ICodeGen codeGen = settings.Generator switch
         {
-            "csharp-jsonapi" => new CSharpCodeGen(),
+            "csharp-jsonapi" => new CSharpCodeGen(new CSharpCodeGenOptions(ParseOptions(settings.Options))),
             "typescript-client" => new TypescriptCodeGen(),
             _ => throw new ArgumentException($"Invalid generator '{settings.Generator}'"),
         };
@@ -105,5 +109,31 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
         }
 
         return 0;
+    }
+
+    private static Dictionary<string, string> ParseOptions(string[]? options)
+    {
+        var parsedOptions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        if (options is null || options.Length == 0)
+        {
+            return parsedOptions;
+        }
+
+        foreach (var option in options)
+        {
+            var parts = option.Split('=', 2, StringSplitOptions.TrimEntries);
+            if (parts.Length != 2 || string.IsNullOrWhiteSpace(parts[0]))
+            {
+                throw new ArgumentException($"Invalid option '{option}'. Expected key=value format.");
+            }
+
+            var key = parts[0];
+            var value = parts[1];
+
+            parsedOptions[key] = value;
+        }
+
+        return parsedOptions;
     }
 }

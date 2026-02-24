@@ -1,27 +1,16 @@
-M src\ContractForge.Cli\CodeGenCommand.cs
-M src\ContractForge.Cli\LintCommand.cs
-M src\ContractForge.Cli\LspCommand.cs
-M src\ContractForge.Cli\Program.cs
-M src\ContractForge.Core\CSharp\CSharpCodeGen.cs
-M src\ContractForge.Core\CSharp\CSharpTypeMapper.cs
-M src\ContractForge.Core\CSharp\Generators\CSharpControllerGenerator.cs
-M src\ContractForge.Core\CSharp\Generators\CSharpEnumGenerator.cs
-M src\ContractForge.Core\CSharp\Generators\CSharpExceptionGenerator.cs
-M src\ContractForge.Core\CSharp\Generators\CSharpServiceInterfaceGenerator.cs
-M src\ContractForge.Core\CSharp\Generators\CSharpStructGenerator.cs
-M src\ContractForge.Core\CSharp\Generators\CSharpUnionGenerator.cs
-M src\ContractForge.Core\Linting\LinterRule.cs
-M src\ContractForge.Core\Linting\Rules\MissingCommaRule.cs
-M src\ContractForge.Core\Linting\ThriftLinter.cs
-M src\ContractForge.Core\Thrift\ThriftListner.cs
-M src\ContractForge.Core\Thrift\ThriftLoader.cs
-M src\ContractForge.Core\Typescript\Generators\TypeScriptExceptionGenerator.cs
-M src\ContractForge.Core\Typescript\Generators\TypeScriptStructGenerator.cs
-M src\ContractForge.Core\Typescript\Generators\TypeScriptUnionGenerator.cs
-M src\ContractForge.Core\Typescript\TypeScriptTypeMapper.cs
-M src\ContractForge.Core\Typescript\TypescriptCodeGen.cs
-M src\ContractForge.Lsp\CompletionHandler.cs
-M src\ContractForge.Lsp\ContractForgeLsp.cs
-M src\ContractForge.Lsp\DiagnosticsHandler.cs
-M src\ContractForge.Lsp\TextDocumentHandler.cs
-M test\ContractForge.Lsp.Test\TokenAnalyzerTests.cs
+Add partial class generator option for C# output
+
+Summary:
+Users can now request partial C# DTOs from the CLI, so generated
+DTO, union, and exception types can be extended safely without editing
+generator output.
+To pass options, parser logic now validates key-value options through
+an explicit C# options type. Unknown keys and invalid boolean values now
+fail early with actionable errors instead of being silently ignored.
+
+Test Plan:
+1. dotnet test test/ContractForge.Core.Test/ContractForge.Core.Test.csproj --filter "FullyQualifiedName~CSharpCodeGenOptionsTest"
+2. Confirm the targeted tests pass and include partial-generation and
+   unsupported-alias coverage.
+3. Expected result: C# types are generated as partial classes only when
+   partial=true is provided.

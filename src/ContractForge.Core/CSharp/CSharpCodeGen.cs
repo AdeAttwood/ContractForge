@@ -15,17 +15,19 @@ public class CSharpCodeGen : ICodeGen
 {
     private readonly CSharpTypeMapper _typeMapper;
     private readonly List<ICSharpGenerator> _generators;
+    private readonly CSharpCodeGenOptions _options;
 
-    public CSharpCodeGen()
+    public CSharpCodeGen(CSharpCodeGenOptions? options = null)
     {
         _typeMapper = new CSharpTypeMapper();
+        _options = options ?? new CSharpCodeGenOptions();
 
         _generators = new List<ICSharpGenerator>
         {
-            new CSharpStructGenerator(_typeMapper),
+            new CSharpStructGenerator(_typeMapper, _options),
             new CSharpEnumGenerator(),
-            new CSharpExceptionGenerator(_typeMapper),
-            new CSharpUnionGenerator(_typeMapper),
+            new CSharpExceptionGenerator(_typeMapper, _options),
+            new CSharpUnionGenerator(_typeMapper, _options),
             new CSharpServiceInterfaceGenerator(_typeMapper),
             new CSharpControllerGenerator(_typeMapper)
         };

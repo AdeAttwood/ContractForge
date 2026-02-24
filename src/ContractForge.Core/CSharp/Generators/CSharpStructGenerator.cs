@@ -1,5 +1,6 @@
 using System.Text;
 
+using ContractForge.Core.CSharp;
 using ContractForge.Core.Types;
 
 using Inflector;
@@ -12,10 +13,12 @@ namespace ContractForge.Core.CSharp.Generators;
 public class CSharpStructGenerator : ICSharpGenerator
 {
     private readonly CSharpTypeMapper _typeMapper;
+    private readonly CSharpCodeGenOptions _options;
 
-    public CSharpStructGenerator(CSharpTypeMapper typeMapper)
+    public CSharpStructGenerator(CSharpTypeMapper typeMapper, CSharpCodeGenOptions options)
     {
         _typeMapper = typeMapper;
+        _options = options;
     }
 
     public void Generate(StringBuilder builder, Document document, List<Error> errors, int indent)
@@ -25,7 +28,8 @@ public class CSharpStructGenerator : ICSharpGenerator
         foreach (var structType in document.Structs.Values)
         {
             CSharpDocumentationHelper.AppendXmlDocComment(builder, structType.Description, indent);
-            builder.AppendFormat("{0}public class {1}\n", prefix, structType.Identifier);
+            var classModifier = _options.UsePartialClasses ? "partial " : "";
+            builder.AppendFormat("{0}public {1}class {2}\n", prefix, classModifier, structType.Identifier);
             builder.AppendFormat("{0}{{\n", prefix);
 
             foreach (var field in structType.Fields.Values)
