@@ -28,7 +28,8 @@ public class TypeScriptExceptionGenerator : ITypeScriptGenerator
             foreach (var field in exceptionType.Fields.Values)
             {
                 TypeScriptDocumentationHelper.AppendJsDocComment(builder, field.Description, 2);
-                builder.AppendFormat("  {0}: {1};\n", field.Identifier, _typeMapper.ToTypeScriptType(field.Type));
+                var optionalMarker = field.IsRequired ? "" : "?";
+                builder.AppendFormat("  {0}{1}: {2};\n", field.Identifier, optionalMarker, _typeMapper.ToTypeScriptType(field.Type));
             }
 
             builder.Append("}\n");

@@ -41,5 +41,5 @@ export interface ValidationError {
   /**
    * Additional error details
    */
-  details: Array<string>;
+  details?: Array<string>;
 }
