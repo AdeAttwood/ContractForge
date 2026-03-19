@@ -42,4 +42,5 @@ public class TypeScriptCodeGenExceptionTest : CodeGenTestBase
         Assert.Empty(result.Errors);
         return Verify(result.Output).UseDirectory("Snapshots");
     }
+
 }
