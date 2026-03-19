@@ -5,9 +5,14 @@ exception GenericError {
   required string message
 }
 
+exception MessageOnlyError {
+  required string message
+}
+
 union NumberResult {
   i64 success,
-  GenericError genericError
+  GenericError genericError,
+  MessageOnlyError messageOnlyError
 }
 
 enum CalculatorMode {

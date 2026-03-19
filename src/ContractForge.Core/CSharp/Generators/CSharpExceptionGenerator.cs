@@ -63,11 +63,14 @@ public class CSharpExceptionGenerator : ICSharpGenerator
                 .Select((parameter) =>
                 {
                     return $"{_typeMapper.ToCSharpType(parameter.Type)} {parameter.Identifier}";
-                });
+                })
+                .ToList();
+
+            parameters.Add("string message");
 
             builder.AppendFormat("{0}    public {1}(", prefix, exceptionStructType.Identifier);
             builder.AppendJoin(", ", parameters);
-            builder.Append(", string message): base(message)\n");
+            builder.Append("): base(message)\n");
             builder.AppendFormat("{0}    {{\n", prefix);
 
             foreach (var field in exceptionStructType.Fields.Values)

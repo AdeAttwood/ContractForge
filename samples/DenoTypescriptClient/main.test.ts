@@ -100,6 +100,19 @@ Deno.test("Calls the subtract method with an error", async () => {
   }
 });
 
+Deno.test("Calls the subtract method with message-only error", async () => {
+  const result = await client.subtract({ a: 5, b: 5 });
+
+  assert("type" in result);
+  assertEquals("messageOnlyError", result.type);
+  if (result.type === "messageOnlyError") {
+    assertEquals(
+      "The service does not handle numbers equal to 0",
+      result.messageOnlyError.message,
+    );
+  }
+});
+
 Deno.test("Round-trips enum values", async () => {
   const result = await client.echoMode(CalculatorMode.SCIENTIFIC);
   assertEquals(CalculatorMode.SCIENTIFIC, result);
