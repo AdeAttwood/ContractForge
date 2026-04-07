@@ -184,6 +184,29 @@ public class CSharpCodeGenValidationTest
         return Verify(result.Output).UseDirectory("Snapshots");
     }
 
+    [Fact]
+    public void Generate_ExceptionWithOnlyMessage_ProducesValidConstructorSignature()
+    {
+        var document = LoadThrift(@"
+            namespace cs Test
+
+            exception SomeError {
+                required string message
+            }
+        ");
+
+        Assert.Empty(document.Errors);
+
+        var state = new DefinitionState();
+        state.Documents.Add("test.thrift", document);
+
+        var generator = new CSharpCodeGen();
+        var result = generator.Build(state);
+
+        Assert.Contains("public SomeError(string message): base(message)", result.Output);
+        Assert.DoesNotContain("public SomeError(, string message)", result.Output);
+    }
+
     private Document LoadThrift(string content)
     {
         var loader = new ThriftLoader();

@@ -32,6 +32,7 @@ export interface Request {
 
 export interface ActionServiceClientOptions {
   host: string;
+  credentials?: RequestCredentials;
   resolveHeaders?: (request: { path: string; method: 'GET' | 'POST' }) => Promise<Record<string, string>> | Record<string, string>;
 }
 export class ActionServiceClient {
@@ -82,6 +83,7 @@ export class ActionServiceClient {
 
     return await fetch(url.toString(), {
       method,
+      credentials: this.options.credentials,
       body: method === 'POST' ? this.serialize(params) : undefined,
       headers,
     })
@@ -104,6 +106,7 @@ export class ActionServiceClient {
 
     const response = await fetch(url.toString(), {
       method,
+      credentials: this.options.credentials,
       body: method === 'POST' ? this.serialize(params) : undefined,
       headers,
     });

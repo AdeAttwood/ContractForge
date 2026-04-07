@@ -35,4 +35,5 @@ public abstract class CodeGenTestBase
         var generator = new TypescriptCodeGen();
         return generator.Build(state);
     }
+
 }

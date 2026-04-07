@@ -32,6 +32,7 @@ Generates ASP.NET Core server code with:
 Generates web-standards TypeScript clients with:
 
 - Fetch API-based HTTP client
+- Optional fetch credentials support for cookie-based auth
 - Full TypeScript type definitions
 - Streaming support with `AsyncIterable<T>`
 - Works in Node.js, Deno, Bun, and browsers

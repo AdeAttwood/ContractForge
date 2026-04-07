@@ -25,6 +25,7 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
                 """
                 export interface {0}ClientOptions {{
                   host: string;
+                  credentials?: RequestCredentials;
                   resolveHeaders?: (request: {{ path: string; method: 'GET' | 'POST' }}) => Promise<Record<string, string>> | Record<string, string>;
                 }}
 
@@ -83,6 +84,7 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
 
                     return await fetch(url.toString(), {{
                       method,
+                      credentials: this.options.credentials,
                       body: method === 'POST' ? this.serialize(params) : undefined,
                       headers,
                     }})
@@ -105,6 +107,7 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
 
                     const response = await fetch(url.toString(), {{
                       method,
+                      credentials: this.options.credentials,
                       body: method === 'POST' ? this.serialize(params) : undefined,
                       headers,
                     }});

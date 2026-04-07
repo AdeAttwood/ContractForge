@@ -22,6 +22,11 @@ public class CalculatorService : ICalculatorService
         _logger.LogInformation("Subtracting {A} from {B}", requestParams.A, requestParams.B);
 
         var result = requestParams.A - requestParams.B;
+        if (result == 0)
+        {
+            return Task.FromResult(new NumberResult(new MessageOnlyError("The service does not handle numbers equal to 0")));
+        }
+
         if (result < 0)
         {
             return Task.FromResult(new NumberResult(new GenericError(501, "The service does not handle numbers less than 0")));
