@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractForge.Lsp", "src\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractForge.Lsp.Test", "test\ContractForge.Lsp.Test\ContractForge.Lsp.Test.csproj", "{FA566983-CB74-4A2F-ADAD-E24C80B41673}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractForge.Cli.Test", "test\ContractForge.Cli.Test\ContractForge.Cli.Test.csproj", "{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,18 @@ Global
 		{FA566983-CB74-4A2F-ADAD-E24C80B41673}.Release|x64.Build.0 = Release|Any CPU
 		{FA566983-CB74-4A2F-ADAD-E24C80B41673}.Release|x86.ActiveCfg = Release|Any CPU
 		{FA566983-CB74-4A2F-ADAD-E24C80B41673}.Release|x86.Build.0 = Release|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Debug|x64.Build.0 = Debug|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Debug|x86.Build.0 = Debug|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Release|x64.ActiveCfg = Release|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Release|x64.Build.0 = Release|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Release|x86.ActiveCfg = Release|Any CPU
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,5 +126,6 @@ Global
 		{2F9B64CE-3139-472E-AAB1-2389FE9F2EB2} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{7B259550-C2D4-46F6-9476-A0B0DC8FB8A0} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{FA566983-CB74-4A2F-ADAD-E24C80B41673} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
+		{91139EAD-6222-4F72-A7AE-2A4498D1DDA6} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
 	EndGlobalSection
 EndGlobal
