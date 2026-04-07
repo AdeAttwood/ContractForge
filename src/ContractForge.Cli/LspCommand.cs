@@ -10,7 +10,7 @@ public class LspCommand : AsyncCommand<LspCommand.Settings>
     {
     }
 
-    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+    protected override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken cancellationToken)
     {
         var server = await ContractForgeLsp.CreateLspAsync(Console.OpenStandardInput(), Console.OpenStandardOutput());
 
