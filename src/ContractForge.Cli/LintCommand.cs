@@ -11,6 +11,13 @@ namespace ContractForge.Cli;
 
 public class LintCommand : Command<LintCommand.Settings>
 {
+    private readonly IAnsiConsole _console;
+
+    public LintCommand(IAnsiConsole console)
+    {
+        _console = console;
+    }
+
     public class Settings : CommandSettings
     {
         [Description("The .thirft file you would like to lint")]
@@ -22,7 +29,7 @@ public class LintCommand : Command<LintCommand.Settings>
         public string[]? IncludePaths { get; init; }
     }
 
-    public override int Execute([NotNull] CommandContext context, [NotNull] Settings settings)
+    protected override int Execute([NotNull] CommandContext context, [NotNull] Settings settings, CancellationToken cancellationToken)
     {
         if (settings.EntryPoint is null)
         {
@@ -52,7 +59,7 @@ public class LintCommand : Command<LintCommand.Settings>
         }
         catch (Exception ex)
         {
-            AnsiConsole.MarkupLine($"[red]ERROR:[/] Failed to load entry point: {ex.Message}");
+            _console.MarkupLine($"[red]ERROR:[/] Failed to load entry point: {ex.Message}");
             return 1;
         }
 
@@ -63,15 +70,15 @@ public class LintCommand : Command<LintCommand.Settings>
             foreach (var error in errors)
             {
                 // ToMsBuildFormat already includes the severity/id
-                AnsiConsole.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()}");
-                AnsiConsole.WriteLine(error.ToConsoleOutput());
+                _console.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()}");
+                _console.WriteLine(error.ToConsoleOutput());
             }
 
-            AnsiConsole.MarkupLine($"[red]Linting failed with {errors.Count} error(s).[/]");
+            _console.MarkupLine($"[red]Linting failed with {errors.Count} error(s).[/]");
             return 1;
         }
 
-        AnsiConsole.MarkupLine("[green]No issues found.[/]");
+        _console.MarkupLine("[green]No issues found.[/]");
         return 0;
     }
 }
