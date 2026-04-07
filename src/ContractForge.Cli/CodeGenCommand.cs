@@ -12,6 +12,19 @@ namespace ContractForge.Cli;
 
 public class CodeGenCommand : Command<CodeGenCommand.Settings>
 {
+    private static readonly Dictionary<string, Func<Settings, ICodeGen>> Generators = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["csharp-jsonapi"] = settings => new CSharpCodeGen(new CSharpCodeGenOptions(ParseOptions(settings.Options))),
+        ["typescript-client"] = _ => new TypescriptCodeGen(),
+    };
+
+    private readonly IAnsiConsole _console;
+
+    public CodeGenCommand(IAnsiConsole console)
+    {
+        _console = console;
+    }
+
     public class Settings : CommandSettings
     {
         [Description("The .thrift file(s) you would like to use as the entry point(s) to your service definition. Can be specified multiple times.")]
@@ -35,7 +48,7 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
         public string[]? IncludePaths { get; init; }
     }
 
-    public override int Execute([NotNull] CommandContext context, [NotNull] Settings settings)
+    protected override int Execute([NotNull] CommandContext context, [NotNull] Settings settings, CancellationToken cancellationToken)
     {
         if (settings.EntryPoints is null || settings.EntryPoints.Length == 0)
         {
@@ -72,19 +85,35 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
         {
             foreach (var error in errors)
             {
-                AnsiConsole.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()}");
-                AnsiConsole.WriteLine(error.ToConsoleOutput());
+                _console.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()}");
+                _console.WriteLine(error.ToConsoleOutput());
             }
 
             return 1;
         }
 
-        ICodeGen codeGen = settings.Generator switch
+        if (string.IsNullOrWhiteSpace(settings.Generator))
         {
-            "csharp-jsonapi" => new CSharpCodeGen(new CSharpCodeGenOptions(ParseOptions(settings.Options))),
-            "typescript-client" => new TypescriptCodeGen(),
-            _ => throw new ArgumentException($"Invalid generator '{settings.Generator}'"),
-        };
+            _console.MarkupLine("[red]ERROR:[/] A generator is required.");
+            _console.WriteLine($"Available generators: {string.Join(", ", Generators.Keys.OrderBy(x => x))}");
+            return 1;
+        }
+
+        if (!Generators.TryGetValue(settings.Generator, out var codeGenFactory))
+        {
+            _console.MarkupLine($"[red]ERROR:[/] Invalid generator '{settings.Generator}'.");
+            _console.WriteLine($"Available generators: {string.Join(", ", Generators.Keys.OrderBy(x => x))}");
+
+            var closestGenerator = GeneratorMatcher.FindClosest(settings.Generator, Generators.Keys);
+            if (closestGenerator is not null)
+            {
+                _console.WriteLine($"Did you mean '{closestGenerator}'?");
+            }
+
+            return 1;
+        }
+
+        var codeGen = codeGenFactory(settings);
 
         var result = codeGen.Build(definitionState);
 
@@ -92,8 +121,8 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
         {
             foreach (var error in result.Errors)
             {
-                AnsiConsole.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()}");
-                AnsiConsole.WriteLine(error.ToConsoleOutput());
+                _console.MarkupLine($"[red]ERROR:[/] {error.ToMsBuildFormat()}");
+                _console.WriteLine(error.ToConsoleOutput());
             }
 
             return 1;
