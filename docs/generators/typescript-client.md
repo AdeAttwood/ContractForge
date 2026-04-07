@@ -263,6 +263,7 @@ service UserService {
 ```typescript
 export interface UserServiceClientOptions {
   host: string;
+  credentials?: RequestCredentials;
   resolveHeaders?: (request: {
     path: string;
     method: "GET" | "POST";
@@ -422,6 +423,18 @@ const client = new UserServiceClient({
   host: "http://localhost:5000",
 });
 ```
+
+If your API relies on cookies, set fetch credentials at the client level:
+
+```typescript
+const client = new UserServiceClient({
+  host: "https://api.example.com",
+  credentials: "include",
+});
+```
+
+`credentials` maps directly to the Fetch API's `RequestCredentials` option, so
+you can use `"omit"`, `"same-origin"`, or `"include"`.
 
 **Authentication Headers (Async):**
 

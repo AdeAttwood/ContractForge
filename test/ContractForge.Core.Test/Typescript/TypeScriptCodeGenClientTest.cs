@@ -137,6 +137,7 @@ public class TypeScriptCodeGenClientTest : CodeGenTestBase
 
         Assert.Empty(result.Errors);
         Assert.Contains("constructor", result.Output);
+        Assert.Contains("credentials?: RequestCredentials", result.Output);
         Assert.Contains("resolveHeaders", result.Output);
         return Verify(result.Output).UseDirectory("Snapshots");
     }
