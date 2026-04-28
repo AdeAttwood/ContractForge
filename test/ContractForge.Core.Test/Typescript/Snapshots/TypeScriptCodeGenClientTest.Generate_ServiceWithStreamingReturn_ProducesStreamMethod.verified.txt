@@ -146,7 +146,7 @@ export class DataServiceClient {
     yield* this.streamNdjson<number>(
       "/rpc/data-service-service/get-numbers",
       "POST",
-      start, end
+      { start, end }
     );
   }
 }

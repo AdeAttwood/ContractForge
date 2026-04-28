@@ -2,15 +2,29 @@ import { assert, assertEquals } from "@std/assert";
 import {
   CalculatorClient,
   CalculatorMode,
+  RoutedCalculatorClient,
 } from "./generated/calculator-service.gen.ts";
 
 let process: Deno.ChildProcess;
+const serverPort = 15000 + Math.floor(Math.random() * 10000);
+const serverHost = `http://localhost:${serverPort}`;
 
 Deno.test.beforeAll(async () => {
   const server = new Deno.Command("dotnet", {
-    args: ["run", "--project", "../DotnetJsonWebApi"],
+    args: [
+      "run",
+      "--project",
+      "../DotnetJsonWebApi",
+      "--no-launch-profile",
+      "--",
+      "--urls",
+      serverHost,
+    ],
     stdout: "piped",
     stderr: "piped",
+    env: {
+      ASPNETCORE_ENVIRONMENT: "Development",
+    },
   });
 
   process = server.spawn();
@@ -27,7 +41,7 @@ Deno.test.beforeAll(async () => {
 
     buffer += decoder.decode(data.value);
 
-    if (buffer.includes("Now listening on: http://localhost:5050")) {
+    if (buffer.includes(`Now listening on: ${serverHost}`)) {
       break;
     }
   }
@@ -44,10 +58,14 @@ Deno.test.afterAll(() => {
 });
 
 const client = new CalculatorClient({
-  host: "http://localhost:5050",
+  host: serverHost,
   resolveHeaders: () => ({
     "X-Client-Token": "sample-token",
   }),
+});
+
+const routedClient = new RoutedCalculatorClient({
+  host: serverHost,
 });
 
 Deno.test("Calls the add method", async () => {
@@ -75,13 +93,51 @@ Deno.test("Calls add two numbers", async () => {
   assertEquals(2, result);
 });
 
+Deno.test("Server accepts raw default base URL", async () => {
+  const response = await fetch(
+    `${serverHost}/rpc/calculator-service/add-two-numbers?a=3&b=4`,
+    {
+      headers: {
+        "X-Client-Token": "sample-token",
+      },
+    },
+  );
+
+  assertEquals(200, response.status);
+  assertEquals(7, await response.json());
+});
+
+Deno.test("Generated client calls normalized custom base URL", async () => {
+  const result = await routedClient.addTwoNumbers(3, 4);
+  assertEquals(7, result);
+});
+
+Deno.test("Server accepts normalized custom base URL", async () => {
+  const response = await fetch(
+    `${serverHost}/api/calculators/routed-calculator-service/add-two-numbers?a=4&b=5`,
+  );
+
+  assertEquals(200, response.status);
+  assertEquals(9, await response.json());
+});
+
+Deno.test("Calls nested POST params", async () => {
+  const result = await client.addNested({ numbers: { a: 4, b: 6 } });
+  assertEquals(10, result);
+});
+
+Deno.test("Calls nested GET params", async () => {
+  const result = await client.addNestedQuery({ numbers: { a: 5, b: 7 } });
+  assertEquals(12, result);
+});
+
 Deno.test("Adds custom headers via resolveHeaders", async () => {
   const result = await client.addTwoNumbers(2, 3);
   assertEquals(5, result);
 });
 
 Deno.test("Returns 0 when client token is missing", async () => {
-  const noTokenClient = new CalculatorClient({ host: "http://localhost:5050" });
+  const noTokenClient = new CalculatorClient({ host: serverHost });
   const result = await noTokenClient.addTwoNumbers(2, 3);
   assertEquals(0, result);
 });

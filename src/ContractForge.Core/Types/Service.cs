@@ -11,7 +11,11 @@ public class Service : BaseType
 
     public string Url()
     {
-        var baseUrl = Attributes.GetValueOrDefault("http.baseUrl", "rpc");
-        return $"/{baseUrl}/{this.Identifier.Underscore().Dasherize().ToLower()}-service";
+        var baseUrl = Attributes.GetValueOrDefault("http.baseUrl", "rpc").Trim().Trim('/');
+        var servicePath = $"{this.Identifier.Underscore().Dasherize().ToLower()}-service";
+
+        return string.IsNullOrWhiteSpace(baseUrl)
+            ? $"/{servicePath}"
+            : $"/{baseUrl}/{servicePath}";
     }
 }

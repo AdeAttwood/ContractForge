@@ -15,6 +15,7 @@ builder.Services.AddControllers(options =>
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<ICalculatorService, CalculatorService>();
+builder.Services.AddScoped<IRoutedCalculatorService, CalculatorService>();
 
 var app = builder.Build();
 
