@@ -35,6 +35,13 @@ struct NumberRequestParams {
 }
 
 /**
+ * Wraps number parameters to verify nested GET query flattening and POST bodies.
+ */
+struct NestedNumberRequestParams {
+  required NumberRequestParams numbers
+}
+
+/**
  * Calculator service
  */
 service Calculator {
@@ -46,6 +53,14 @@ service Calculator {
    * Add two numbers that are bound to multiple params
    */
   i32 addTwoNumbers(i32 a, i32 b) (http.method = "get"),
+  /**
+   * Add nested request parameters using a POST body.
+   */
+  i64 addNested(NestedNumberRequestParams requestParams),
+  /**
+   * Add nested request parameters using flattened GET query parameters.
+   */
+  i64 addNestedQuery(NestedNumberRequestParams requestParams) (http.method = "get"),
   /**
    * Echo the calculator mode for enum round-trip testing.
    */
@@ -59,3 +74,13 @@ service Calculator {
    */
    list<i64> range(NumberRequestParams requestParams)
 }
+
+/**
+ * Calculator service mounted under a custom base URL.
+ */
+service RoutedCalculator {
+  /**
+   * Add two numbers through a custom base URL.
+   */
+  i32 addTwoNumbers(i32 a, i32 b) (http.method = "get")
+} (http.baseUrl = "/api/calculators")

@@ -43,7 +43,6 @@ public class TypeScriptCodeGenClientTest : CodeGenTestBase
     {
         var result = GenerateTypeScript(@"
             namespace ts Test
-            
             service DataService {
                 string getData(i32 id, string filter) (http.method = ""get"")
             }
@@ -51,6 +50,20 @@ public class TypeScriptCodeGenClientTest : CodeGenTestBase
 
         Assert.Empty(result.Errors);
         return Verify(result.Output).UseDirectory("Snapshots");
+    }
+
+    [Fact]
+    public void Generate_ServiceWithSingleGetParameter_WrapsQueryObject()
+    {
+        var result = GenerateTypeScript(@"
+            namespace ts Test
+            service DataService {
+                string getData(i32 id) (http.method = ""get"")
+            }
+        ");
+
+        Assert.Empty(result.Errors);
+        Assert.Contains("\"GET\",\n      { id }", result.Output);
     }
 
     [Fact]

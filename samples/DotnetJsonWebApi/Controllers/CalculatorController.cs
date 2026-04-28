@@ -25,3 +25,9 @@ public class CalculatorController : CalculatorBaseController
         return base.AddTwoNumbers(a, b, cancellationToken);
     }
 }
+
+public class RoutedCalculatorController : RoutedCalculatorBaseController
+{
+    public RoutedCalculatorController(IRoutedCalculatorService service): base(service)
+    {}
+}
