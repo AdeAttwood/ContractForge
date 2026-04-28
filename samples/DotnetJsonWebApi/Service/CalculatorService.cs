@@ -2,7 +2,7 @@ using DotnetJsonWebApi.Generated;
 
 namespace DotnetJsonWebApi.Service;
 
-public class CalculatorService : ICalculatorService
+public class CalculatorService : ICalculatorService, IRoutedCalculatorService
 {
     private readonly ILogger<CalculatorService> _logger;
 
@@ -54,5 +54,20 @@ public class CalculatorService : ICalculatorService
     public Task<int> AddTwoNumbers(int a, int b, CancellationToken cancellationToken = default)
     {
         return Task.FromResult(a + b);
+    }
+
+    public Task<long> AddNested(NestedNumberRequestParams requestParams, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(AddNestedNumbers(requestParams));
+    }
+
+    public Task<long> AddNestedQuery(NestedNumberRequestParams requestParams, CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(AddNestedNumbers(requestParams));
+    }
+
+    private static long AddNestedNumbers(NestedNumberRequestParams requestParams)
+    {
+        return requestParams.Numbers.A + requestParams.Numbers.B;
     }
 }
