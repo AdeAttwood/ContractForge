@@ -24,7 +24,7 @@ contractforge [options]
 | Option        | Short | Description                                                                                |
 | ------------- | ----- | ------------------------------------------------------------------------------------------ |
 | `--entry`     | `-e`  | Path to the Thrift IDL file(s). Can be specified multiple times for multiple entry points. |
-| `--generator` | `-g`  | Code generator to use. Options: `csharp-jsonapi`, `typescript-client`.                     |
+| `--generator` | `-g`  | Code generator to use. Options: `csharp-jsonapi`, `openapi`, `typescript-client`.          |
 | `--include`   | `-i`  | Add a directory to search for include directives. Can be specified multiple times.         |
 | `--output`    | `-o`  | Output file path (optional, defaults to console output).                                   |
 | `--option`    | `-O`  | Generator option in `key=value` format. Can be specified multiple times.                   |
@@ -73,6 +73,27 @@ Generate a TypeScript client:
 
 ```bash
 contractforge --entry api.thrift --generator typescript-client --output api-client.ts
+```
+
+### OpenAPI Generation
+
+Generate an OpenAPI JSON document:
+
+```bash
+contractforge --entry api.thrift --generator openapi --output openapi.json
+```
+
+OpenAPI generator options use OpenAPI-style keys:
+
+```bash
+contractforge \
+  --entry api.thrift \
+  --generator openapi \
+  --output openapi.json \
+  -O openapi=3.1.0 \
+  -O info.title="Users API" \
+  -O info.version=1.2.0 \
+  -O servers.0.url=https://api.example.com
 ```
 
 ## lint

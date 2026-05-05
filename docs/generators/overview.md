@@ -14,7 +14,7 @@ Generators are code generation engines that:
 
 ## Available Generators
 
-ContractForge currently provides two generators:
+ContractForge currently provides three generators:
 
 ### C# JSON API (`csharp-jsonapi`)
 
@@ -39,29 +39,44 @@ Generates web-standards TypeScript clients with:
 
 **[Learn more →](typescript-client.md)**
 
+### OpenAPI (`openapi`)
+
+Generates OpenAPI JSON specifications with:
+
+- OpenAPI 3.0.3 by default
+- Optional OpenAPI 3.1.0 output
+- Component schemas for structs, exceptions, enums, and unions
+- Paths matching the generated JSON API routes
+- JSON and NDJSON response media types for `list<T>` returns
+
+**[Learn more →](openapi.md)**
+
 ## Using Generators
 
 ### Basic Usage
 
 ```bash
-contractforge generate <generator> -i <input.thrift> -o <output>
+contractforge --entry <input.thrift> --generator <generator> --output <output>
 ```
 
 ### Examples
 
 ```bash
 # Generate C# server
-contractforge generate csharp-jsonapi -i service.thrift -o Server/Generated/
+contractforge --entry service.thrift --generator csharp-jsonapi --output Server/Generated/
 
 # Generate TypeScript client
-contractforge generate typescript-client -i service.thrift -o client.ts
+contractforge --entry service.thrift --generator typescript-client --output client.ts
+
+# Generate OpenAPI JSON
+contractforge --entry service.thrift --generator openapi --output openapi.json
 ```
 
 ### Common Options
 
 All generators support these options:
 
-- `-i, --input` - Input Thrift IDL file (required)
+- `-e, --entry` - Input Thrift IDL file (required)
 - `-o, --output` - Output path (required)
 - `--help` - Show generator-specific help
 
@@ -93,7 +108,8 @@ for:
 - Custom use cases
 
 Custom generator development is an advanced topic. Check the source code for
-`CSharpCodeGen` and `TypescriptCodeGen` as reference implementations.
+`CSharpCodeGen`, `TypescriptCodeGen`, and `OpenApiCodeGen` as reference
+implementations.
 
 ## Next Steps
 
@@ -102,3 +118,4 @@ Explore each generator in detail:
 - **[C# JSON API Generator](csharp-jsonapi.md)** - Server-side code generation
 - **[TypeScript Client Generator](typescript-client.md)** - Client-side code
   generation
+- **[OpenAPI Generator](openapi.md)** - OpenAPI JSON specification generation

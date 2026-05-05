@@ -1,4 +1,5 @@
 using ContractForge.Core.CSharp;
+using ContractForge.Core.OpenApi;
 using ContractForge.Core.Thrift;
 using ContractForge.Core.Types;
 using ContractForge.Core.Typescript;
@@ -33,6 +34,15 @@ public abstract class CodeGenTestBase
         var state = new DefinitionState();
         state.Documents.Add("test.thrift", document);
         var generator = new TypescriptCodeGen();
+        return generator.Build(state);
+    }
+
+    protected CodeGenResult GenerateOpenApi(string thriftContent, OpenApiCodeGenOptions? options = null)
+    {
+        var document = LoadThrift(thriftContent);
+        var state = new DefinitionState();
+        state.Documents.Add("test.thrift", document);
+        var generator = new OpenApiCodeGen(options);
         return generator.Build(state);
     }
 

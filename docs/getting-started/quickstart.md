@@ -58,7 +58,7 @@ Generate server-side code for your backend:
 #### C# ASP.NET Core
 
 ```bash
-contractforge generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
+contractforge --entry calculator.thrift --generator csharp-jsonapi --output Server/Generated/
 ```
 
 **What you get:**
@@ -80,7 +80,7 @@ Generate client-side code for your frontend or service-to-service calls:
 #### TypeScript (Node/Deno/Bun/Browser)
 
 ```bash
-contractforge generate typescript-client -i calculator.thrift -o client.ts
+contractforge --entry calculator.thrift --generator typescript-client --output client.ts
 ```
 
 **What you get:**
@@ -92,6 +92,27 @@ contractforge generate typescript-client -i calculator.thrift -o client.ts
 
 **Next steps:**
 [Complete TypeScript Client Guide →](../generators/typescript-client.md#quick-start)
+
+---
+
+### Specification Generators
+
+Generate an OpenAPI document for Swagger UI, documentation, or client tooling:
+
+#### OpenAPI JSON
+
+```bash
+contractforge --entry calculator.thrift --generator openapi --output openapi.json
+```
+
+**What you get:**
+
+- OpenAPI 3.0.3 JSON by default
+- Schemas for Thrift structs, exceptions, enums, and unions
+- Paths matching the generated JSON API routes
+- JSON and NDJSON response media types for list returns
+
+**Next steps:** [Complete OpenAPI Guide →](../generators/openapi.md#quick-start)
 
 ---
 
@@ -115,10 +136,13 @@ Most projects use multiple generators together:
 
 ```bash
 # Backend API
-contractforge generate csharp-jsonapi -i calculator.thrift -o Server/Generated/
+contractforge --entry calculator.thrift --generator csharp-jsonapi --output Server/Generated/
 
 # Frontend client
-contractforge generate typescript-client -i calculator.thrift -o client/api.ts
+contractforge --entry calculator.thrift --generator typescript-client --output client/api.ts
+
+# API specification
+contractforge --entry calculator.thrift --generator openapi --output docs/openapi.json
 ```
 
 Both share the same Thrift IDL, ensuring type consistency across your stack.
@@ -129,13 +153,13 @@ Generate multiple services from different IDL files:
 
 ```bash
 # User service
-contractforge generate csharp-jsonapi -i user-service.thrift -o UserService/Generated/
+contractforge --entry user-service.thrift --generator csharp-jsonapi --output UserService/Generated/
 
 # Order service
-contractforge generate csharp-jsonapi -i order-service.thrift -o OrderService/Generated/
+contractforge --entry order-service.thrift --generator csharp-jsonapi --output OrderService/Generated/
 
 # Product service
-contractforge generate csharp-jsonapi -i product-service.thrift -o ProductService/Generated/
+contractforge --entry product-service.thrift --generator csharp-jsonapi --output ProductService/Generated/
 ```
 
 Each service can be developed, deployed, and scaled independently.
@@ -155,6 +179,7 @@ Ready to build? Continue with your chosen generator:
   APIs
 - **[TypeScript Client Guide](../generators/typescript-client.md)** - Build
   type-safe clients
+- **[OpenAPI Guide](../generators/openapi.md)** - Generate API specifications
 - **[Thrift IDL Reference](../reference/thrift-idl.md)** - Learn the complete
   type system
 - **[CLI Reference](../reference/cli.md)** - All CLI commands and options

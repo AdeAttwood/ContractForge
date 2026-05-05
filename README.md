@@ -1,14 +1,15 @@
 # ContractForge
 
-ContractForge is a .NET tool for generating RPC clients and servers from Thrift
-IDL files. It supports code generation for C# and TypeScript, enabling seamless
-cross-language RPC communication.
+ContractForge is a .NET tool for generating RPC clients, servers, and OpenAPI
+specifications from Thrift IDL files. It supports code generation for C# and
+TypeScript, enabling seamless cross-language RPC communication.
 
 ## Features
 
 - Parse Thrift IDL files using ANTLR.
 - Generate C# server code.
 - Generate TypeScript client code.
+- Generate OpenAPI JSON specifications.
 - Command-line interface for easy integration.
 
 ## Installation
@@ -45,8 +46,8 @@ Options:
 
 - `--entry` (`-e`): Path to the Thrift IDL file. Can be specified multiple times
   for multiple entry points.
-- `--generator` (`-g`): Code generator (`csharp-jsonapi` for C# or
-  `typescript-client` for TypeScript).
+- `--generator` (`-g`): Code generator (`csharp-jsonapi` for C#,
+  `typescript-client` for TypeScript, or `openapi` for OpenAPI JSON).
 - `--include` (`-i`): Add a directory to the list of directories searched for
   include directives. Can be specified multiple times.
 - `--output` (`-o`): The output file to save the generated code to (optional,
