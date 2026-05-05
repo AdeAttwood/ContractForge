@@ -41,6 +41,7 @@ nav:
       - Overview: generators/overview.md
       - C# JSON API: generators/csharp-jsonapi.md
       - TypeScript Client: generators/typescript-client.md
+      - OpenAPI: generators/openapi.md
   - Reference:
       - CLI: reference/cli.md
       - Thrift IDL: reference/thrift-idl.md

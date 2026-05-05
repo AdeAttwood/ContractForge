@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using ContractForge.Core;
 using ContractForge.Core.CSharp;
+using ContractForge.Core.OpenApi;
 using ContractForge.Core.Typescript;
 
 using Spectre.Console;
@@ -15,6 +16,7 @@ public class CodeGenCommand : Command<CodeGenCommand.Settings>
     private static readonly Dictionary<string, Func<Settings, ICodeGen>> Generators = new(StringComparer.OrdinalIgnoreCase)
     {
         ["csharp-jsonapi"] = settings => new CSharpCodeGen(new CSharpCodeGenOptions(ParseOptions(settings.Options))),
+        ["openapi"] = settings => new OpenApiCodeGen(new OpenApiCodeGenOptions(ParseOptions(settings.Options))),
         ["typescript-client"] = _ => new TypescriptCodeGen(),
     };
 

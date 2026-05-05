@@ -772,6 +772,8 @@ service DataService {
   Core server code from Thrift IDL
 - [TypeScript Client Generator](../generators/typescript-client.md) - Generate
   type-safe TypeScript clients
+- [OpenAPI Generator](../generators/openapi.md) - Generate OpenAPI JSON
+  specifications
 - [Getting Started Guide](../getting-started/quickstart.md) - Build your first
   ContractForge API
 - [CLI Reference](cli.md) - Command-line tool options and usage
