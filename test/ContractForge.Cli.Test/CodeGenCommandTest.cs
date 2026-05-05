@@ -22,7 +22,7 @@ public class CodeGenCommandTest : IDisposable
 
         Assert.Equal(1, result.ExitCode);
         Assert.Contains("Invalid generator 'typescript-clien'.", result.Output);
-        Assert.Contains("Available generators: csharp-jsonapi, typescript-client", result.Output);
+        Assert.Contains("Available generators: csharp-jsonapi, openapi, typescript-client", result.Output);
         Assert.Contains("Did you mean 'typescript-client'?", result.Output);
     }
 
@@ -48,7 +48,7 @@ public class CodeGenCommandTest : IDisposable
 
         Assert.Equal(1, result.ExitCode);
         Assert.Contains("A generator is required.", result.Output);
-        Assert.Contains("Available generators: csharp-jsonapi, typescript-client", result.Output);
+        Assert.Contains("Available generators: csharp-jsonapi, openapi, typescript-client", result.Output);
     }
 
     public void Dispose()
