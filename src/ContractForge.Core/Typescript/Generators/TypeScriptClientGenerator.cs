@@ -155,17 +155,13 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
                 });
 
                 var returnType = string.Join(" | ", func.AllTypes().Select(_typeMapper.ToTypeScriptType));
+                var method = func.Method().ToUpperInvariant();
 
                 builder.AppendJoin(", ", parameters);
                 builder.AppendFormat("): Promise<{0}> {{\n", returnType);
 
                 // Build the params argument for the request
-                var paramNames = func.Parameters.Values.Select(p => p.Identifier).ToList();
-                var paramsArg = paramNames.Count == 0
-                    ? "{}"
-                    : paramNames.Count == 1
-                        ? paramNames[0]  // Single param: pass directly
-                        : $"{{ {string.Join(", ", paramNames)} }}";  // Multiple params: wrap in object
+                var paramsArg = BuildParamsArgument(func);
 
                 builder.AppendFormat(
                     """
@@ -177,7 +173,7 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
 
                     """,
                     $"{service.Url()}/{func.Url()}",
-                    func.Method().ToUpper(),
+                    method,
                     paramsArg
                 );
 
@@ -188,8 +184,7 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
                 {
                     var innerType = _typeMapper.ToTypeScriptType(listType.InnerType);
                     var parametersStr = string.Join(", ", parameters);
-                    var streamParamNames = string.Join(", ", func.Parameters.Values.Select(p => p.Identifier));
-
+                    var streamParamsArg = BuildParamsArgument(func);
 
                     TypeScriptDocumentationHelper.AppendJsDocComment(builder, func.Description, 2);
                     builder.AppendFormat("  public async *{0}Stream(", func.Identifier);
@@ -206,8 +201,8 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
                         """,
                         innerType,
                         $"{service.Url()}/{func.Url()}",
-                        func.Method().ToUpper(),
-                        streamParamNames.Length > 0 ? streamParamNames : "{}"
+                        method,
+                        streamParamsArg
                     );
 
                     builder.Append("  }\n");
@@ -216,5 +211,21 @@ public class TypeScriptClientGenerator : ITypeScriptGenerator
 
             builder.Append("}\n");
         }
+    }
+
+    private string BuildParamsArgument(Function func)
+    {
+        var paramNames = func.Parameters.Values.Select(p => p.Identifier).ToList();
+        if (paramNames.Count == 0)
+        {
+            return "{}";
+        }
+
+        if (func.Method().ToUpperInvariant() == "GET" || paramNames.Count > 1)
+        {
+            return $"{{ {string.Join(", ", paramNames)} }}";
+        }
+
+        return paramNames[0];
     }
 }
