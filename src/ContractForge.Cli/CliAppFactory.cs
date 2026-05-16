@@ -13,6 +13,9 @@ public static class CliAppFactory
 
     public static void Configure(IConfigurator config)
     {
+        config.SetApplicationName("contractforge");
+        config.UseAssemblyInformationalVersion();
+
         config.AddCommand<CodeGenCommand>("generate")
             .WithDescription("Generate code from thrift definitions");
 
