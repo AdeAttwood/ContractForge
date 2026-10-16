@@ -59,7 +59,7 @@ public class CSharpCodeGen : ICodeGen
                 indent = 4;
             }
 
-            AppendUsings(builder, indent);
+            AppendUsings(builder, indent, document.Unions.Count > 0);
 
             foreach (var generator in _generators)
             {
@@ -79,12 +79,24 @@ public class CSharpCodeGen : ICodeGen
         };
     }
 
-    private void AppendUsings(StringBuilder builder, int indent)
+    private void AppendUsings(StringBuilder builder, int indent, bool hasUnions)
     {
         var prefix = new string(' ', indent);
+        if (hasUnions)
+        {
+            builder.AppendFormat("{0}using System;\n", prefix);
+        }
         builder.AppendFormat("{0}using Microsoft.AspNetCore.Mvc;\n", prefix);
+        if (hasUnions)
+        {
+            builder.AppendFormat("{0}using System.Text.Json;\n", prefix);
+        }
         builder.AppendFormat("{0}using System.Text.Json.Serialization;\n", prefix);
         builder.AppendFormat("{0}using System.Collections;\n", prefix);
+        if (hasUnions)
+        {
+            builder.AppendFormat("{0}using System.Collections.Generic;\n", prefix);
+        }
         builder.AppendFormat("{0}using System.Threading;\n", prefix);
         builder.AppendFormat("{0}using System.Threading.Tasks;\n", prefix);
         builder.AppendFormat("{0}using System.ComponentModel.DataAnnotations;\n", prefix);
