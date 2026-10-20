@@ -272,9 +272,9 @@ ordinary `JsonSerializer` and `HttpClient` JSON APIs without consumer setup. The
 converter accepts the discriminator and branch payload in either property order,
 uses the caller's serializer options for payloads, and writes only the active
 branch. It rejects missing or unknown discriminators, absent or null payloads,
-multiple branch payloads, and discriminator/payload mismatches. Unrelated unknown
-properties are ignored for forward compatibility; properties whose names match a
-known union branch always participate in union validation.
+multiple branch payloads, and discriminator/payload mismatches. Unrelated
+unknown properties are ignored for forward compatibility; properties whose names
+match a known union branch always participate in union validation.
 
 ### Service Interface
 
