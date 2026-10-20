@@ -40,6 +40,12 @@ public class CalculatorService : ICalculatorService, IRoutedCalculatorService
         return Task.FromResult(mode);
     }
 
+    public Task<NumberResult> EchoResult(NumberResult result, CancellationToken cancellationToken = default)
+    {
+        var json = System.Text.Json.JsonSerializer.Serialize(result);
+        return Task.FromResult(System.Text.Json.JsonSerializer.Deserialize<NumberResult>(json)!);
+    }
+
     public Task<IAsyncEnumerable<long>> Range(NumberRequestParams requestParams, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting range from {A}", System.Text.Json.JsonSerializer.Serialize(requestParams));

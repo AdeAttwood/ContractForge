@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetJsonWebApi.Controllers;
 
+[ApiController]
 public class CalculatorController : CalculatorBaseController
 {
     private const string ClientTokenHeader = "X-Client-Token";
