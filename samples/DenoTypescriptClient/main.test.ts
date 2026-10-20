@@ -174,6 +174,64 @@ Deno.test("Round-trips enum values", async () => {
   assertEquals(CalculatorMode.SCIENTIFIC, result);
 });
 
+Deno.test("Round-trips union branches through generated C# JSON", async () => {
+  const success = await client.echoResult({ type: "success", success: 42 });
+  assertEquals({ type: "success", success: 42 }, success);
+  assertEquals(["success", "type"], Object.keys(success).sort());
+
+  const error = await client.echoResult({
+    type: "genericError",
+    genericError: { code: 503, message: "unavailable" },
+  });
+  assertEquals("genericError", error.type);
+  if (error.type === "genericError") {
+    assertEquals(503, error.genericError.code);
+    assertEquals("unavailable", error.genericError.message);
+  }
+  assertEquals(["genericError", "type"], Object.keys(error).sort());
+});
+
+Deno.test("Accepts reordered union properties and unrelated properties", async () => {
+  const response = await fetch(
+    `${serverHost}/rpc/calculator-service/echo-result`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ SUCCESS: "17", ignored: true, TYPE: "success" }),
+    },
+  );
+
+  assertEquals(200, response.status);
+  assertEquals({ type: "success", success: 17 }, await response.json());
+});
+
+Deno.test("Rejects invalid union JSON shapes", async () => {
+  const invalidShapes = [
+    {},
+    { type: "unknown", success: 1 },
+    { type: "success" },
+    { type: "success", success: null },
+    {
+      type: "success",
+      success: 1,
+      genericError: { code: 500, message: "error" },
+    },
+    { type: "success", genericError: { code: 500, message: "error" } },
+  ];
+
+  for (const body of invalidShapes) {
+    const response = await fetch(
+      `${serverHost}/rpc/calculator-service/echo-result`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      },
+    );
+    assertEquals(400, response.status);
+  }
+});
+
 Deno.test("Calls the range with await json", async () => {
   const result = await client.range({ a: 5, b: 10 });
 

@@ -66,6 +66,10 @@ service Calculator {
    */
   CalculatorMode echoMode(CalculatorMode mode),
   /**
+   * Echo a union after exercising generated JSON deserialization.
+   */
+  NumberResult echoResult(NumberResult result),
+  /**
    * Subtract two numbers. The result of `a - b` will be returned.
    */
   NumberResult subtract(NumberRequestParams requestParams) throws (GenericError genericError),
