@@ -65,6 +65,9 @@ See the `samples/` directory for working examples:
 
 ## Building from Source
 
+ContractForge uses the stable .NET 10.0.102 SDK pinned in `global.json`. The
+installed CLI runs on .NET 9 and later.
+
 1. Restore dependencies: `dotnet restore`
 2. Build: `dotnet build`
 3. Run tests: `dotnet test`

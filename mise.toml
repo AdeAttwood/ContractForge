@@ -1,4 +1,4 @@
 [tools]
 deno = "latest"
-dotnet = "latest"
+dotnet = "10.0.102"
 task = "latest"

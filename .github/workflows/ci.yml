@@ -14,6 +14,8 @@ jobs:
 
       - name: Setup Dotnet
         uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.102
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
@@ -33,6 +35,10 @@ jobs:
 
       - name: Setup Dotnet
         uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            9.0.313
+            10.0.102
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
@@ -46,3 +52,44 @@ jobs:
 
       - name: Lint
         run: task test-all
+
+      - name: Pack CLI
+        run: dotnet pack src/ContractForge.Cli/ContractForge.Cli.csproj -c Release /warnaserror /p:PackageVersion=0.0.0-ci -o artifacts/package
+
+      - name: Verify CLI package
+        run: |
+          package=artifacts/package/ContractForge.Cli.0.0.0-ci.nupkg
+          unzip -l "$package" | grep -F 'tools/net9.0/any/ContractForge.Cli.dll'
+          unzip -p "$package" tools/net9.0/any/ContractForge.Cli.runtimeconfig.json > artifacts/runtimeconfig.json
+          grep -F '"rollForward": "Major"' artifacts/runtimeconfig.json
+
+      - name: Upload CLI package
+        uses: actions/upload-artifact@v6
+        with:
+          name: contractforge-cli
+          path: artifacts/package/ContractForge.Cli.0.0.0-ci.nupkg
+
+  packaged-tool:
+    name: Packaged tool (.NET ${{ matrix.runtime-major }})
+    needs: test
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/dotnet/sdk:${{ matrix.sdk }}
+    strategy:
+      matrix:
+        include:
+          - runtime-major: 9
+            sdk: 9.0.313
+          - runtime-major: 10
+            sdk: 10.0.102
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download CLI package
+        uses: actions/download-artifact@v7
+        with:
+          name: contractforge-cli
+          path: artifacts/package
+
+      - name: Verify packaged tool
+        run: .github/scripts/test-packaged-tool.sh artifacts/package 0.0.0-ci ${{ matrix.runtime-major }} samples/DotnetJsonWebApi/calculator.thrift
