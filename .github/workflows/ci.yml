@@ -50,9 +50,6 @@ jobs:
 
       - run: dotnet test /warnaserror
 
-      - name: Lint
-        run: task test-all
-
       - name: Pack CLI
         run: dotnet pack src/ContractForge.Cli/ContractForge.Cli.csproj -c Release /warnaserror /p:PackageVersion=0.0.0-ci -o artifacts/package
 
@@ -107,3 +104,43 @@ jobs:
           tool/contractforge --version
           tool/contractforge --entry "$GITHUB_WORKSPACE/samples/DotnetJsonWebApi/calculator.thrift" --generator csharp-jsonapi --output generated.cs
           grep -F 'CalculatorService' generated.cs
+
+  sample-integration:
+    name: Sample integration (.NET ${{ matrix.runtime-major }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runtime-major: 9
+            target-framework: net9.0
+            dotnet-versions: |
+              9.0.313
+              10.0.102
+          - runtime-major: 10
+            target-framework: net10.0
+            dotnet-versions: 10.0.102
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet-versions }}
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+
+      - name: Setup Task
+        uses: go-task/setup-task@v1
+
+      - name: Run sample integration tests
+        env:
+          ASPNETCORE_URLS: ""
+          ASPNETCORE_HTTP_PORTS: ""
+          ASPNETCORE_HTTPS_PORTS: ""
+        run: |
+          test "$(dotnet --version)" = "10.0.102"
+          dotnet --list-runtimes | grep -E '^Microsoft.AspNetCore.App ${{ matrix.runtime-major }}\.'
+          task sample-dotnet-api:build sample-deno-client:generate sample-deno-client:check sample-deno-client:test DOTNET_TARGET=${{ matrix.target-framework }}

@@ -50,11 +50,7 @@ public class CalculatorService : ICalculatorService, IRoutedCalculatorService
     {
         _logger.LogInformation("Getting range from {A}", System.Text.Json.JsonSerializer.Serialize(requestParams));
 
-        var range = Enumerable.Range((int)requestParams.A, (int)(requestParams.B - requestParams.A + 1))
-            .Select(i => (long)i)
-            .ToAsyncEnumerable();
-
-        return Task.FromResult(range);
+        return Task.FromResult(GetRange(requestParams.A, requestParams.B));
     }
 
     public Task<int> AddTwoNumbers(int a, int b, CancellationToken cancellationToken = default)
@@ -75,5 +71,14 @@ public class CalculatorService : ICalculatorService, IRoutedCalculatorService
     private static long AddNestedNumbers(NestedNumberRequestParams requestParams)
     {
         return requestParams.Numbers.A + requestParams.Numbers.B;
+    }
+
+    private static async IAsyncEnumerable<long> GetRange(long first, long last)
+    {
+        for (var value = first; value <= last; value++)
+        {
+            yield return value;
+            await Task.Yield();
+        }
     }
 }

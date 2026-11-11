@@ -8,6 +8,13 @@ import {
 let process: Deno.ChildProcess;
 const serverPort = 15000 + Math.floor(Math.random() * 10000);
 const serverHost = `http://localhost:${serverPort}`;
+const targetFramework = Deno.env.get("DOTNET_TARGET") ?? "net10.0";
+const expectedRuntimeMajor = targetFramework.match(/^net(\d+)\.0$/)?.[1];
+
+assert(
+  expectedRuntimeMajor,
+  `Unsupported target framework: ${targetFramework}`,
+);
 
 Deno.test.beforeAll(async () => {
   const server = new Deno.Command("dotnet", {
@@ -15,15 +22,21 @@ Deno.test.beforeAll(async () => {
       "run",
       "--project",
       "../DotnetJsonWebApi",
+      "--framework",
+      targetFramework,
+      "--no-build",
       "--no-launch-profile",
       "--",
       "--urls",
       serverHost,
     ],
     stdout: "piped",
-    stderr: "piped",
+    stderr: "inherit",
     env: {
       ASPNETCORE_ENVIRONMENT: "Development",
+      ASPNETCORE_URLS: "",
+      ASPNETCORE_HTTP_PORTS: "",
+      ASPNETCORE_HTTPS_PORTS: "",
     },
   });
 
@@ -41,10 +54,24 @@ Deno.test.beforeAll(async () => {
 
     buffer += decoder.decode(data.value);
 
-    if (buffer.includes(`Now listening on: ${serverHost}`)) {
+    if (
+      buffer.includes(`Now listening on: ${serverHost}`) &&
+      buffer.includes("ContractForge sample runtime:")
+    ) {
       break;
     }
   }
+
+  assert(
+    buffer.includes(
+      `ContractForge sample runtime: .NET ${expectedRuntimeMajor}.`,
+    ),
+    `Expected ${targetFramework}, but the server reported a different runtime:\n${buffer}`,
+  );
+  assert(
+    buffer.includes(`Now listening on: ${serverHost}`),
+    `The server exited before listening:\n${buffer}`,
+  );
 });
 
 Deno.test.afterAll(() => {

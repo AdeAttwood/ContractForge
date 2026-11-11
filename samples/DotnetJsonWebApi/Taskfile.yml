@@ -2,6 +2,7 @@ version: "3"
 
 vars:
   PROJECT_NAME: DotnetJsonWebApi
+  DOTNET_TARGET: '{{default "net10.0" .DOTNET_TARGET}}'
   THRIFT_FILE: calculator.thrift
   GENERATED_FILE: Generated/CalculatorService.cs
   CLI_PROJECT: ../../src/ContractForge.Cli/ContractForge.Cli.csproj
@@ -12,7 +13,7 @@ tasks:
     deps:
       - generate
     cmds:
-      - dotnet build /warnaserror
+      - dotnet build --framework {{.DOTNET_TARGET}} /warnaserror
 
   generate:
     desc: Regenerate service code from Thrift

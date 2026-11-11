@@ -63,6 +63,13 @@ See the `samples/` directory for working examples:
 - `DotnetJsonWebApi`: ASP.NET Core Web API with generated C# service.
 - `DenoTypescriptClient`: Deno TypeScript client for RPC calls.
 
+The ASP.NET sample supports .NET 9 and .NET 10. Its generated enums and unions
+use `JsonStringEnumMemberNameAttribute`, a `System.Text.Json` API introduced in
+.NET 9, so the sample does not compile on .NET 8 as generated today. This is a
+generated-source API requirement, independent of the CLI runtime requirement;
+supporting a .NET 8 sample would require a code-generation fallback rather than
+only changing its target framework or package versions.
+
 ## Building from Source
 
 ContractForge uses the stable .NET 10.0.102 SDK pinned in `global.json`. The
