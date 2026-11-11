@@ -15,9 +15,12 @@ environment.
 
 Before installing ContractForge, ensure you have:
 
-- **.NET 8.0 SDK or later** -
+- **.NET 9 runtime or later** -
   [Download here](https://dotnet.microsoft.com/download)
 - **Command-line access** - Terminal, PowerShell, or Command Prompt
+
+The CLI targets .NET 9 and rolls forward to later major runtimes. A .NET SDK is
+not required when installing the published tool package.
 
 For TypeScript client development, you'll also need:
 
@@ -33,6 +36,7 @@ install it from source:
 In addition to the prerequisites above, you'll need:
 
 - **Git** - To clone the repository
+- **.NET 10.0.102 SDK** - The stable SDK used to build this repository
 - **Task** (optional but recommended) -
   [Install Task](https://taskfile.dev/installation/)
 
@@ -116,6 +120,12 @@ And update with:
 ```bash
 dotnet tool update --global ContractForge.Cli
 ```
+
+Normal installation does not require `--allow-roll-forward`. If you are testing
+the tool with only a prerelease runtime, such as a consumer application's .NET
+11 RC environment, set `DOTNET_ROLL_FORWARD_TO_PRERELEASE=1` for that
+environment. This opt-in is only for prerelease consumer testing and is not
+ContractForge's default package policy.
 
 ## Next Steps
 

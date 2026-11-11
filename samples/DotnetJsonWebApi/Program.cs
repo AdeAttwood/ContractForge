@@ -32,4 +32,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}"
 );
 
+app.Logger.LogInformation("ContractForge sample runtime: .NET {RuntimeVersion}", Environment.Version);
+
 app.Run();

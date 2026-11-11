@@ -14,6 +14,8 @@ jobs:
 
       - name: Setup Dotnet
         uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.102
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
@@ -33,6 +35,10 @@ jobs:
 
       - name: Setup Dotnet
         uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            9.0.313
+            10.0.102
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
@@ -44,5 +50,97 @@ jobs:
 
       - run: dotnet test /warnaserror
 
-      - name: Lint
-        run: task test-all
+      - name: Pack CLI
+        run: dotnet pack src/ContractForge.Cli/ContractForge.Cli.csproj -c Release /warnaserror /p:PackageVersion=0.0.0-ci -o artifacts/package
+
+      - name: Verify CLI package
+        run: |
+          package=artifacts/package/ContractForge.Cli.0.0.0-ci.nupkg
+          unzip -l "$package" | grep -F 'tools/net9.0/any/ContractForge.Cli.dll'
+          unzip -p "$package" tools/net9.0/any/ContractForge.Cli.runtimeconfig.json > artifacts/runtimeconfig.json
+          grep -F '"rollForward": "Major"' artifacts/runtimeconfig.json
+
+      - name: Upload CLI package
+        uses: actions/upload-artifact@v6
+        with:
+          name: contractforge-cli
+          path: artifacts/package/ContractForge.Cli.0.0.0-ci.nupkg
+
+  packaged-tool:
+    name: Packaged tool (.NET ${{ matrix.runtime-major }})
+    needs: test
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/dotnet/sdk:${{ matrix.sdk }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runtime-major: 9
+            sdk: 9.0.313
+          - runtime-major: 10
+            sdk: 10.0.102
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download CLI package
+        uses: actions/download-artifact@v7
+        with:
+          name: contractforge-cli
+          path: ${{ runner.temp }}/package
+
+      - name: Install packaged tool
+        working-directory: ${{ runner.temp }}
+        run: |
+          test "$(dotnet --list-runtimes | awk '$1 == "Microsoft.NETCore.App" { split($2, version, "."); print version[1] }' | sort -u)" = "${{ matrix.runtime-major }}"
+          dotnet new nugetconfig --output nuget
+          dotnet nuget remove source nuget --configfile nuget/nuget.config
+          dotnet nuget add source "$RUNNER_TEMP/package" --name package --configfile nuget/nuget.config
+          dotnet tool install --tool-path tool --configfile nuget/nuget.config --version 0.0.0-ci ContractForge.Cli
+
+      - name: Execute packaged tool
+        working-directory: ${{ runner.temp }}
+        run: |
+          tool/contractforge --version
+          tool/contractforge --entry "$GITHUB_WORKSPACE/samples/DotnetJsonWebApi/calculator.thrift" --generator csharp-jsonapi --output generated.cs
+          grep -F 'CalculatorService' generated.cs
+
+  sample-integration:
+    name: Sample integration (.NET ${{ matrix.runtime-major }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runtime-major: 9
+            target-framework: net9.0
+            dotnet-versions: |
+              9.0.313
+              10.0.102
+          - runtime-major: 10
+            target-framework: net10.0
+            dotnet-versions: 10.0.102
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet-versions }}
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+
+      - name: Setup Task
+        uses: go-task/setup-task@v1
+
+      - name: Run sample integration tests
+        env:
+          ASPNETCORE_URLS: ""
+          ASPNETCORE_HTTP_PORTS: ""
+          ASPNETCORE_HTTPS_PORTS: ""
+        run: |
+          test "$(dotnet --version)" = "10.0.102"
+          dotnet --list-runtimes | grep -E '^Microsoft.AspNetCore.App ${{ matrix.runtime-major }}\.'
+          task sample-dotnet-api:build sample-deno-client:generate sample-deno-client:check sample-deno-client:test DOTNET_TARGET=${{ matrix.target-framework }}

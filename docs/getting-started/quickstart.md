@@ -12,7 +12,8 @@ an API and generate code for your platform.
 ## Prerequisites
 
 - [ContractForge CLI installed](installation.md)
-- Your target runtime (.NET 8.0+, Node.js 18+, Deno, or Bun)
+- .NET 9 or later to run the ContractForge CLI
+- Your generated-code target runtime (.NET 9+, Node.js 18+, Deno, or Bun)
 
 ## Step 1: Define Your API
 

@@ -2,6 +2,7 @@ version: "3"
 
 vars:
   PROJECT_NAME: DenoTypescriptClient
+  DOTNET_TARGET: '{{default "net10.0" .DOTNET_TARGET}}'
   THRIFT_FILE: ../DotnetJsonWebApi/calculator.thrift
   GENERATED_FILE: generated/calculator-service.gen.ts
   CLI_PROJECT: ../../src/ContractForge.Cli/ContractForge.Cli.csproj
@@ -12,8 +13,10 @@ tasks:
     cmd: deno check
 
   test:
-    desc: Check the typescript types
-    cmd: deno test --allow-run --allow-net
+    desc: Run integration tests against the selected .NET sample target
+    cmd: deno test --allow-run --allow-net --allow-env=DOTNET_TARGET
+    env:
+      DOTNET_TARGET: "{{.DOTNET_TARGET}}"
 
   generate:
     desc: Regenerate client code from Thrift

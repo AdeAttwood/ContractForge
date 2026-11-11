@@ -30,9 +30,13 @@ through creating a simple Calculator service.
 
 ### Prerequisites
 
-- .NET 8.0 SDK
+- .NET 9.0 SDK or later for generated C# projects
 - ContractForge CLI installed
 - Basic familiarity with ASP.NET Core
+
+Generated enum and union code uses `JsonStringEnumMemberNameAttribute`, which
+was introduced in .NET 9. This generated-code requirement is separate from the
+SDK used to build ContractForge itself.
 
 ### Step 1: Define Your API
 
