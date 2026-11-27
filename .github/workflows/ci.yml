@@ -79,6 +79,8 @@ jobs:
             sdk: 9.0.313
           - runtime-major: 10
             sdk: 10.0.102
+          - runtime-major: 11
+            sdk: 11.0.100
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -114,12 +116,14 @@ jobs:
         include:
           - runtime-major: 9
             target-framework: net9.0
-            dotnet-versions: |
-              9.0.313
-              10.0.102
+            runtime-sdk: 9.0.313
+            build-sdk: 10.0.102
           - runtime-major: 10
             target-framework: net10.0
-            dotnet-versions: 10.0.102
+            build-sdk: 10.0.102
+          - runtime-major: 11
+            target-framework: net11.0
+            build-sdk: 11.0.100
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -127,7 +131,9 @@ jobs:
       - name: Setup Dotnet
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: ${{ matrix.dotnet-versions }}
+          dotnet-version: |
+            ${{ matrix.build-sdk }}
+            ${{ matrix.runtime-sdk }}
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
@@ -141,6 +147,7 @@ jobs:
           ASPNETCORE_HTTP_PORTS: ""
           ASPNETCORE_HTTPS_PORTS: ""
         run: |
-          test "$(dotnet --version)" = "10.0.102"
+          echo '{"sdk":{"version":"${{ matrix.build-sdk }}"}}' > samples/global.json
+          test "$(cd samples && dotnet --version)" = "${{ matrix.build-sdk }}"
           dotnet --list-runtimes | grep -E '^Microsoft.AspNetCore.App ${{ matrix.runtime-major }}\.'
           task sample-dotnet-api:build sample-deno-client:generate sample-deno-client:check sample-deno-client:test DOTNET_TARGET=${{ matrix.target-framework }}
