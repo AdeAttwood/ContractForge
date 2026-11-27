@@ -22,6 +22,7 @@ public abstract class CodeGenTestBase
     protected CodeGenResult GenerateCSharp(string thriftContent, CSharpCodeGenOptions? options = null)
     {
         var document = LoadThrift(thriftContent);
+        AssertDocumentHasNoErrors(document);
         var state = new DefinitionState();
         state.Documents.Add("test.thrift", document);
         var generator = new CSharpCodeGen(options);
@@ -31,6 +32,7 @@ public abstract class CodeGenTestBase
     protected CodeGenResult GenerateTypeScript(string thriftContent)
     {
         var document = LoadThrift(thriftContent);
+        AssertDocumentHasNoErrors(document);
         var state = new DefinitionState();
         state.Documents.Add("test.thrift", document);
         var generator = new TypescriptCodeGen();
@@ -40,10 +42,24 @@ public abstract class CodeGenTestBase
     protected CodeGenResult GenerateOpenApi(string thriftContent, OpenApiCodeGenOptions? options = null)
     {
         var document = LoadThrift(thriftContent);
+        AssertDocumentHasNoErrors(document);
         var state = new DefinitionState();
         state.Documents.Add("test.thrift", document);
         var generator = new OpenApiCodeGen(options);
         return generator.Build(state);
     }
 
+    private static void AssertDocumentHasNoErrors(Document document)
+    {
+        if (document.Errors.Count == 0)
+        {
+            return;
+        }
+
+        var diagnostics = string.Join(
+            Environment.NewLine,
+            document.Errors.Select(error => error.ToMsBuildFormat())
+        );
+        Assert.Fail($"Expected valid Thrift, but found parser/linter diagnostics:{Environment.NewLine}{diagnostics}");
+    }
 }

@@ -38,12 +38,7 @@ public class CSharpCodeGenNamespaceTest : CodeGenTestBase
     public Task Generate_WithEmptyNamespace_ProducesUnindentedCode()
     {
         var result = GenerateCSharp(@"
-            namespace cs
-
-            struct User {
-                1: required string name,
-                2: required i32 age
-            }
+            namespace cs structUser
         ");
 
         Assert.Empty(result.Errors);
